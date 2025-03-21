@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://iyceefjwx0dt"]
 
+[ext_resource type="Script" uid="uid://cysjrnkf7jl24" path="res://Code/Config/GameManager.cs" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://c8sy8a8p18r5n" path="res://player.tscn" id="1_ig7tw"]
-[ext_resource type="Script" uid="uid://dmifrimyxrtdl" path="res://Code/Config/ItemRegistry.cs" id="2_0xm2m"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ig7tw"]
 size = Vector3(19.0322, 1, 18.2363)
@@ -9,6 +9,7 @@ size = Vector3(19.0322, 1, 18.2363)
 [sub_resource type="BoxMesh" id="BoxMesh_ig7tw"]
 
 [node name="root" type="Node"]
+script = ExtResource("1_h2yge")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.480076, 0)
@@ -26,6 +27,3 @@ transform = Transform3D(0.80997, -0.32506, 0.488144, 2.80082e-08, 0.832341, 0.55
 
 [node name="Player" parent="." instance=ExtResource("1_ig7tw")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.80133, 0)
-
-[node name="ItemRegistry" type="Node" parent="."]
-script = ExtResource("2_0xm2m")

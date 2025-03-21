@@ -4,12 +4,12 @@ using System.Collections.Generic;
 public partial class Storage : Node
 {
     [Export] public int Capacity = 20; // Default inventory size
-    private List<ItemStack> _items = new();
+    private List<ItemStack> _items = [];
 
     public Storage(int capacity)
     {
         Capacity = capacity;
-        _items = new();
+        _items = [];
     }
 
     public override void _Ready()

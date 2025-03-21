@@ -1,17 +1,27 @@
 [
-  {
-	"id": 1,
-	"name": "Wood",
-	"icon_path": "res://Assets/Icons/wood.png"
-  },
-  {
-	"id": 2,
-	"name": "Stone",
-	"icon_path": "res://Assets/Icons/stone.png"
-  },
-  {
-	"id": 3,
-	"name": "Iron Ore",
-	"icon_path": "res://Assets/Icons/iron_ore.png"
-  }
+	{
+		"id": 0,
+		"name": "Townhall",
+		"stack_size": 50,
+		"icon": "townhall.png",
+		"is_building": false
+	},
+	{
+		"id": 1,
+		"name": "Wood",
+		"stack_size": 200,
+		"icon": "wood.png"
+	},
+	{
+		"id": 2,
+		"name": "Stone",
+		"stack_size": 100,
+		"icon": "stone.png"
+	},
+	{
+		"id": 3,
+		"name": "Tent",
+		"stack_size": 50,
+		"icon": "tent.png"
+	}
 ]

@@ -16,29 +16,29 @@ public static class RecipeRegistry
 
     public static void LoadIRecipes(string jsonFilePath)
     {
-        string jsonText = FileAccess.GetFileAsString(jsonFilePath);
-        if (string.IsNullOrEmpty(jsonText))
-        {
-            GD.PrintErr("RecipeRegistry: Failed to load Recipes JSON!");
-            return;
-        }
+        // string jsonText = FileAccess.GetFileAsString(jsonFilePath);
+        // if (string.IsNullOrEmpty(jsonText))
+        // {
+        //     GD.PrintErr("RecipeRegistry: Failed to load Recipes JSON!");
+        //     return;
+        // }
 
-        // Deserialize JSON into an array of Recipe data
-        var Recipes = JsonSerializer.Deserialize<List<RecipeData>>(jsonText);
-        if (Recipes == null)
-        {
-            GD.PrintErr("RecipeRegistry: Failed to parse Recipes JSON!");
-            return;
-        }
+        // // Deserialize JSON into an array of Recipe data
+        // var Recipes = JsonSerializer.Deserialize<List<RecipeData>>(jsonText);
+        // if (Recipes == null)
+        // {
+        //     GD.PrintErr("RecipeRegistry: Failed to parse Recipes JSON!");
+        //     return;
+        // }
 
-        // Convert Recipe data into actual Recipe objects and store them
-        foreach (var RecipeData in Recipes)
-        {
-            var recipe = new Recipe(RecipeData.Id, RecipeData.Name, RecipeData.IconPath, RecipeData.CraftingTime);
-            _recipes[recipe.Id] = recipe;
-        }
+        // // Convert Recipe data into actual Recipe objects and store them
+        // foreach (var RecipeData in Recipes)
+        // {
+        //     var recipe = new Recipe(RecipeData.Id, RecipeData.Name, RecipeData.IconPath, RecipeData.CraftingTime);
+        //     _recipes[recipe.Id] = recipe;
+        // }
 
-        GD.Print($"RecipeRegistry: Loaded {_recipes.Count} Recipes.");
+        // GD.Print($"RecipeRegistry: Loaded {_recipes.Count} Recipes.");
     }
 
     public static Recipe GetRecipeById(int id)
