@@ -7,5 +7,5 @@ public partial class Item : Resource
     [Export] public string Name { get; set; }
     [Export] public Texture2D Icon { get; set; }
     [Export] public int MaxStackSize { get; set; }
-    [Export] public BuildingBase Building;
+    [Export] public PackedScene BuildingScene;
 }

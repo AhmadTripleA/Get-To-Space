@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Item" load_steps=4 format=3 uid="uid://dt8lcd54dvqt8"]
+
+[ext_resource type="Script" uid="uid://b6tdf6pbtx8rv" path="res://Code/Classes/Resources/Item.cs" id="1_7rfwo"]
+[ext_resource type="PackedScene" uid="uid://dei62suc6rgr3" path="res://Scenes/tent.tscn" id="1_uby24"]
+[ext_resource type="Texture2D" uid="uid://b1jewycnm8tbp" path="res://icon.svg" id="2_t7vnp"]
+
+[resource]
+script = ExtResource("1_7rfwo")
+Id = 3
+Name = "Tent"
+Icon = ExtResource("2_t7vnp")
+MaxStackSize = 50
+BuildingScene = ExtResource("1_uby24")
+metadata/_custom_type_script = "uid://b6tdf6pbtx8rv"

@@ -1,33 +1,37 @@
-[gd_scene load_steps=6 format=3 uid="uid://iyceefjwx0dt"]
+[gd_scene load_steps=10 format=3 uid="uid://iyceefjwx0dt"]
 
 [ext_resource type="Script" uid="uid://cysjrnkf7jl24" path="res://Code/Config/GameManager.cs" id="1_h2yge"]
-[ext_resource type="PackedScene" uid="uid://c8sy8a8p18r5n" path="res://player.tscn" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://c8sy8a8p18r5n" path="res://Scenes/player.tscn" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://dxao7adc1mgoy" path="res://Code/CameraController.cs" id="3_h2yge"]
+[ext_resource type="Script" uid="uid://dfmy3j03g6721" path="res://Code/UI/BuildMenu.cs" id="4_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://ktjg7djaa2wg" path="res://Scenes/texture_button.tscn" id="5_lquwl"]
+[ext_resource type="Script" uid="uid://b7wnqh8q67qwb" path="res://Code/Config/BuildingManager.cs" id="6_7mycd"]
+[ext_resource type="Script" uid="uid://cxq4j1xqobk2q" path="res://InputManager.cs" id="7_272bh"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ig7tw"]
-size = Vector3(19.0322, 1, 18.2363)
+size = Vector3(31.4346, 1, 28.7737)
 
 [sub_resource type="BoxMesh" id="BoxMesh_ig7tw"]
 
 [node name="root" type="Node"]
 script = ExtResource("1_h2yge")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
+[node name="Env" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.480076, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Env"]
 shape = SubResource("BoxShape3D_ig7tw")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
-transform = Transform3D(19.6479, 0, 0, 0, 1, 0, 0, 0, 18.091, 0, 0, 0)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Env"]
+transform = Transform3D(32.1358, 0, 0, 0, 1, 0, 0, 0, 31.1066, 0, 0, 0)
 mesh = SubResource("BoxMesh_ig7tw")
 skeleton = NodePath("../CollisionShape3D")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="Sun" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.80997, -0.32506, 0.488144, 2.80082e-08, 0.832341, 0.554263, -0.586471, -0.448937, 0.674171, 0, 0, 0)
 
 [node name="Player" parent="." instance=ExtResource("1_ig7tw")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.80133, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0210257, 2.52834, -0.0384884)
 MoveSpeed = 7.0
 RotationSpeed = 12.0
 
@@ -36,3 +40,43 @@ transform = Transform3D(1, 0, 0, 0, 0.705674, 0.708537, 0, -0.708537, 0.705674, 
 script = ExtResource("3_h2yge")
 Target = NodePath("../Player")
 Offset = Vector3(0, 7, 6)
+
+[node name="Control" type="Control" parent="." node_paths=PackedStringArray("GridContainer", "MenuToggleButton")]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("4_1bvp3")
+GridContainer = NodePath("BG/itemGridContainer")
+ItemButtonPrefab = ExtResource("5_lquwl")
+MenuToggleButton = NodePath("../ToggleMenu")
+
+[node name="BG" type="PanelContainer" parent="Control"]
+layout_mode = 0
+offset_left = 726.0
+offset_top = 40.0
+offset_right = 1115.0
+offset_bottom = 604.0
+pivot_offset = Vector2(194, 282)
+
+[node name="itemGridContainer" type="GridContainer" parent="Control/BG"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="ToggleMenu" type="Button" parent="."]
+offset_left = 40.0
+offset_top = 40.0
+offset_right = 132.0
+offset_bottom = 88.0
+text = "Menu
+"
+
+[node name="config" type="Node" parent="."]
+
+[node name="BuildingManager" type="Node3D" parent="config"]
+script = ExtResource("6_7mycd")
+SnapDistance = 0.0
+
+[node name="InputManager" type="Node" parent="config"]
+script = ExtResource("7_272bh")

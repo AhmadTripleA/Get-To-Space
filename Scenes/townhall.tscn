@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://b1n37daekq31"]
+
+[ext_resource type="Script" uid="uid://bg30pdu264s4h" path="res://Code/Classes/Buildings/Building.cs" id="1_8nbhp"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_2jy8h"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2jy8h"]
+size = Vector3(1, 1.9231, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_8nbhp"]
+
+[node name="Tent" type="Node3D"]
+script = ExtResource("1_8nbhp")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25816, 0)
+
+[node name="roof" type="MeshInstance3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.198603, 0)
+mesh = SubResource("PrismMesh_2jy8h")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.265015, 0)
+shape = SubResource("BoxShape3D_2jy8h")
+
+[node name="body" type="MeshInstance3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.757485, 0)
+mesh = SubResource("BoxMesh_8nbhp")

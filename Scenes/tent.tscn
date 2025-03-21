@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://dei62suc6rgr3"]
+
+[ext_resource type="Script" uid="uid://bg30pdu264s4h" path="res://Code/Classes/Buildings/Building.cs" id="1_2jy8h"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_2jy8h"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2jy8h"]
+
+[node name="Tent" type="Node3D"]
+script = ExtResource("1_2jy8h")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("PrismMesh_2jy8h")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_2jy8h")
