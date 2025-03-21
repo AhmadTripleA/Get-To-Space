@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://iyceefjwx0dt"]
+[gd_scene load_steps=11 format=3 uid="uid://iyceefjwx0dt"]
 
 [ext_resource type="Script" uid="uid://cysjrnkf7jl24" path="res://Code/Config/GameManager.cs" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://c8sy8a8p18r5n" path="res://Scenes/player.tscn" id="1_ig7tw"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://dfmy3j03g6721" path="res://Code/UI/BuildMenu.cs" id="4_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://ktjg7djaa2wg" path="res://Scenes/texture_button.tscn" id="5_lquwl"]
 [ext_resource type="Script" uid="uid://b7wnqh8q67qwb" path="res://Code/Config/BuildingManager.cs" id="6_7mycd"]
+[ext_resource type="Material" uid="uid://lfuqpstgf8l1" path="res://Assets/Materials/previewMaterial.tres" id="7_5vw27"]
 [ext_resource type="Script" uid="uid://cxq4j1xqobk2q" path="res://InputManager.cs" id="7_272bh"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ig7tw"]
@@ -76,7 +77,7 @@ text = "Menu
 
 [node name="BuildingManager" type="Node3D" parent="config"]
 script = ExtResource("6_7mycd")
-SnapDistance = 0.0
+PreviewMaterial = ExtResource("7_5vw27")
 
 [node name="InputManager" type="Node" parent="config"]
 script = ExtResource("7_272bh")

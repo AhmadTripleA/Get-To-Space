@@ -4,4 +4,7 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>SpaceRace</RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <Content Include="code\items.json" />
+  </ItemGroup>
 </Project>

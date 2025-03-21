@@ -4,8 +4,11 @@ public partial class BuildingManager : Node3D
 {
     public static BuildingManager Instance { get; private set; }
     [Export] public float SnapDistance = 0.1f;  // The distance to snap the building to the floor
+    [Export] public StandardMaterial3D PreviewMaterial;
     private Camera3D Camera;
-    private Node3D _currentBuilding = null;  // The currently placed (preview) building
+
+    private Node3D _previewBuilding = null;  // The preview building instance
+    private PackedScene _currentBuildingScene = null; // The actual building scene to place
     private bool _isPlacing = false;         // Whether we're currently in "place mode"
 
     public override void _Ready()
@@ -25,59 +28,61 @@ public partial class BuildingManager : Node3D
 
     public override void _Process(double delta)
     {
-
-        if (_isPlacing)
+        if (_isPlacing && _previewBuilding != null)
         {
             Vector3 mouseWorldPosition = GetMouseWorldPosition();
-            // Update building's position to follow the mouse position
-            if (_currentBuilding != null)
-            {
-                _currentBuilding.Position = mouseWorldPosition;
-            }
+            _previewBuilding.Position = mouseWorldPosition;
         }
     }
 
     private void OnPlace()
     {
-        if(_isPlacing) FinalizePlacing();
+        if (_isPlacing) FinalizePlacing();
     }
 
-    public void StartPlacing(PackedScene Building)
+    public void StartPlacing(PackedScene buildingScene)
     {
-        // Instantiate the building scene as a preview object
-        if (_currentBuilding != null)
-        {
-            _currentBuilding.QueueFree();
-        }
+        CleanUp(); // Remove any existing preview
 
-        _currentBuilding = (Node3D)Building.Instantiate();
-        AddChild(_currentBuilding);
+        _currentBuildingScene = buildingScene;
+
+        // Create a separate preview instance
+        _previewBuilding = (Node3D)buildingScene.Instantiate();
+        ApplyPreviewEffects(_previewBuilding);
+        AddChild(_previewBuilding);
         _isPlacing = true;
     }
 
-    public void FinalizePlacing()
+    private void FinalizePlacing()
     {
-        if (_currentBuilding == null) return;
+        if (_previewBuilding == null) return;
 
-        // Finalize placement and create the building
-        Vector3 mouseWorldPosition = GetMouseWorldPosition();
-        _currentBuilding.Position = mouseWorldPosition;
+        // Get final placement position
+        Vector3 finalPosition = GetMouseWorldPosition();
 
+        // Instantiate the actual building
+        Node3D placedBuilding = (Node3D)_currentBuildingScene.Instantiate();
+        placedBuilding.Position = finalPosition;
+        AddChild(placedBuilding);
+
+        // Cleanup preview
         CleanUp();
     }
 
-    public void CleanUp()
+    private void CleanUp()
     {
-        if (_isPlacing)
+        if (_previewBuilding != null)
         {
-            _currentBuilding = null;
-            _isPlacing = false;
+            _previewBuilding.QueueFree();
+            _previewBuilding = null;
         }
+
+        _isPlacing = false;
+        _currentBuildingScene = null;
     }
 
     private Vector3 GetMouseWorldPosition()
     {
-        // Retrieve the mouse position in viewport coordinates
         Vector2 mousePosition = GetViewport().GetMousePosition();
 
         if (Camera == null)
@@ -86,41 +91,70 @@ public partial class BuildingManager : Node3D
             return Vector3.Zero;
         }
 
-        // Calculate the ray's origin and direction from the camera through the mouse position
         Vector3 rayOrigin = Camera.ProjectRayOrigin(mousePosition);
         Vector3 rayDirection = Camera.ProjectRayNormal(mousePosition);
 
-        // Create the PhysicsRayQueryParameters3D object
         PhysicsRayQueryParameters3D query = new()
         {
-            // Set the ray's origin and end positions
             From = rayOrigin,
-            To = rayOrigin + rayDirection * 1000, // Raycasting with a distance of 1000 units
-
-            // Optionally set the collision mask, for example, to only hit a specific layer
-            // CollisionMask = 1 // Adjust as needed
+            To = rayOrigin + rayDirection * 1000
         };
 
-        // Perform the ray intersection
         var spaceState = GetWorld3D().DirectSpaceState;
         var result = spaceState.IntersectRay(query);
 
-        // Check if we have a valid intersection result
         if (result.Count > 0)
         {
-            // Extract the intersection point
             Vector3 intersectionPoint = (Vector3)result["position"];
-
-            // Snap to a specific Y value, for example, ground level (optional)
             intersectionPoint.Y = SnapDistance;
-
             return intersectionPoint;
         }
 
-        // If no intersection, return the original ray origin
         return rayOrigin;
     }
 
+    private void ApplyPreviewEffects(Node3D preview)
+    {
+        DisableCollisionsRecursively(preview);
+        ApplyPreviewMaterial(preview);
+    }
 
+    /// <summary>
+    /// Recursively disables all CollisionShape3D nodes inside a given node.
+    /// </summary>
+    private void DisableCollisionsRecursively(Node node)
+    {
+        foreach (Node child in node.GetChildren())
+        {
+            if (child is CollisionShape3D col)
+            {
+                col.Disabled = true;
+            }
+
+            // Recursively search in all children
+            DisableCollisionsRecursively(child);
+        }
+    }
+
+    /// <summary>
+    /// Recursively applies the assigned preview material to all MeshInstance3D nodes inside a given node.
+    /// </summary>
+    private void ApplyPreviewMaterial(Node node)
+    {
+        foreach (Node child in node.GetChildren())
+        {
+            if (child is MeshInstance3D meshInstance && PreviewMaterial != null)
+            {
+                // Apply the material to all surfaces of the mesh
+                for (int i = 0; i < meshInstance.GetSurfaceOverrideMaterialCount(); i++)
+                {
+                    meshInstance.SetSurfaceOverrideMaterial(i, PreviewMaterial);
+                }
+            }
+
+            // Recursively apply the effect to all children
+            ApplyPreviewMaterial(child);
+        }
+    }
 
 }

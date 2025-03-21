@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="Item" load_steps=4 format=3 uid="uid://csmy8iwc7dpot"]
 
-[ext_resource type="PackedScene" uid="uid://dei62suc6rgr3" path="res://Scenes/tent.tscn" id="1_rb4es"]
+[ext_resource type="PackedScene" uid="uid://b1n37daekq31" path="res://Scenes/townhall.tscn" id="1_rb4es"]
 [ext_resource type="Texture2D" uid="uid://b1jewycnm8tbp" path="res://icon.svg" id="2_pmvem"]
 [ext_resource type="Script" uid="uid://b6tdf6pbtx8rv" path="res://Code/Classes/Resources/Item.cs" id="3_wqqn2"]
 
