@@ -11,7 +11,7 @@ public partial class BuildMenu : Control
     public override void _Ready()
     {
         MenuToggleButton.Pressed += ToggleMenu;
-        ItemRegistry.OnItemsLoaded += PopulateMenu;
+        ItemDB.OnItemsLoaded += PopulateMenu;
         InputManager.CancelAction += CloseMenu;
         Hide(); // Start hidden
     }
@@ -30,7 +30,7 @@ public partial class BuildMenu : Control
     private void PopulateMenu()
     {
         GD.Print("Started Added Buildings");
-        foreach (var item in ItemRegistry.Items.Values)
+        foreach (var item in ItemDB.GetAllItems())
         {
             if (item.BuildingScene != null) // Filter only buildings
             {

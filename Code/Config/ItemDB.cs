@@ -1,15 +1,16 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
-public static class ItemRegistry
+public static class ItemDB
 {
     public static event Action OnItemsLoaded;
-    public static Dictionary<int, Item> Items = [];
+    private static Dictionary<int, Item> _items = [];
 
     public static void LoadItems()
     {
-        Items.Clear();
+        _items.Clear();
 
         string itemsFolder = "res://Assets/Items/";
         var dir = DirAccess.Open(itemsFolder);
@@ -28,7 +29,7 @@ public static class ItemRegistry
 
                     if (item != null)
                     {
-                        Items[item.Id] = item;
+                        _items[item.Id] = item;
                         GD.Print($"Loaded item: {item.Name} (ID: {item.Id})");
                     }
                     else
@@ -47,6 +48,11 @@ public static class ItemRegistry
 
     public static Item GetItemById(int id)
     {
-        return Items.TryGetValue(id, out var item) ? item : null;
+        return _items.TryGetValue(id, out var item) ? item : null;
+    }
+
+    public static Item[] GetAllItems()
+    {
+        return _items.Values.ToArray();
     }
 }

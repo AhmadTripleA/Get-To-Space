@@ -19,6 +19,7 @@ public partial class GameManager : Node
 
     private void StartGame()
     {
-        ItemRegistry.LoadItems(); // Load items at start
+        ItemDB.LoadItems();
+        RecipeDB.LoadRecipes();
     }
 }
