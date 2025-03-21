@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://c8sy8a8p18r5n"]
 
-[ext_resource type="Script" uid="uid://cj0cppjb05ku3" path="res://Code/Player/Player.cs" id="1_4flbx"]
+[ext_resource type="Script" uid="uid://dwatuavse1ke4" path="res://Code/Player/TopDownPlayer.cs" id="1_4flbx"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_p1l0m"]
 
@@ -10,9 +10,8 @@
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_onrkg"]
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("Camera")]
+[node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_4flbx")
-Camera = NodePath("Head/Camera/POVCamera")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.01615, 0)
@@ -25,12 +24,9 @@ shape = SubResource("SphereShape3D_4flbx")
 [node name="Head Mesh" type="MeshInstance3D" parent="Head"]
 mesh = SubResource("SphereMesh_onrkg")
 
-[node name="Camera" type="Node3D" parent="Head"]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0.197793)
-
-[node name="POVCamera" type="Camera3D" parent="Head/Camera"]
-current = true
-fov = 90.0
+[node name="Head Mesh" type="MeshInstance3D" parent="Head/Head Mesh"]
+transform = Transform3D(0.448038, 0, 0, 0, 0.448038, 0, 0, 0, 0.448038, 0, 0, 0.56048)
+mesh = SubResource("SphereMesh_onrkg")
 
 [node name="Body Mesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.01615, 0)

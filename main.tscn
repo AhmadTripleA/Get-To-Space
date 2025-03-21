@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://iyceefjwx0dt"]
+[gd_scene load_steps=6 format=3 uid="uid://iyceefjwx0dt"]
 
 [ext_resource type="Script" uid="uid://cysjrnkf7jl24" path="res://Code/Config/GameManager.cs" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://c8sy8a8p18r5n" path="res://player.tscn" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://dxao7adc1mgoy" path="res://Code/CameraController.cs" id="3_h2yge"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ig7tw"]
 size = Vector3(19.0322, 1, 18.2363)
@@ -27,3 +28,11 @@ transform = Transform3D(0.80997, -0.32506, 0.488144, 2.80082e-08, 0.832341, 0.55
 
 [node name="Player" parent="." instance=ExtResource("1_ig7tw")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.80133, 0)
+MoveSpeed = 7.0
+RotationSpeed = 12.0
+
+[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("Target")]
+transform = Transform3D(1, 0, 0, 0, 0.705674, 0.708537, 0, -0.708537, 0.705674, 0, 8.09526, 10.0842)
+script = ExtResource("3_h2yge")
+Target = NodePath("../Player")
+Offset = Vector3(0, 7, 6)
