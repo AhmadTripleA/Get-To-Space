@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Space Race"
+config/name="Get-to-Space"
 run/main_scene="uid://iyceefjwx0dt"
 config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 config/icon="res://icon.svg"

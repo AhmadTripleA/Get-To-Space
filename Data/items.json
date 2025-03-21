@@ -1,0 +1,17 @@
+[
+  {
+	"id": 1,
+	"name": "Wood",
+	"icon_path": "res://Assets/Icons/wood.png"
+  },
+  {
+	"id": 2,
+	"name": "Stone",
+	"icon_path": "res://Assets/Icons/stone.png"
+  },
+  {
+	"id": 3,
+	"name": "Iron Ore",
+	"icon_path": "res://Assets/Icons/iron_ore.png"
+  }
+]

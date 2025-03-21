@@ -1,5 +1,6 @@
 using Godot;
-public partial class Player : CharacterBody3D
+
+partial class Player : CharacterBody3D
 {
     [Export] public float Speed = 5.0f;
     [Export] public float SprintMultiplier = 2.0f;

@@ -1,16 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://iyceefjwx0dt"]
+[gd_scene load_steps=5 format=3 uid="uid://iyceefjwx0dt"]
 
 [ext_resource type="PackedScene" uid="uid://c8sy8a8p18r5n" path="res://player.tscn" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://dmifrimyxrtdl" path="res://Code/Config/ItemRegistry.cs" id="2_0xm2m"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ig7tw"]
 size = Vector3(19.0322, 1, 18.2363)
 
 [sub_resource type="BoxMesh" id="BoxMesh_ig7tw"]
 
-[node name="Node3D" type="Node3D"]
-
-[node name="Player" parent="." instance=ExtResource("1_ig7tw")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.80133, 0)
+[node name="root" type="Node"]
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.480076, 0)
@@ -25,3 +23,9 @@ skeleton = NodePath("../CollisionShape3D")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.80997, -0.32506, 0.488144, 2.80082e-08, 0.832341, 0.554263, -0.586471, -0.448937, 0.674171, 0, 0, 0)
+
+[node name="Player" parent="." instance=ExtResource("1_ig7tw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.80133, 0)
+
+[node name="ItemRegistry" type="Node" parent="."]
+script = ExtResource("2_0xm2m")

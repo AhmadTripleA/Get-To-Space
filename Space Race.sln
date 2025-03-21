@@ -1,6 +1,6 @@
 ﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Space Race", "Space Race.csproj", "{BE800E7D-F772-479C-80F0-7E5A00580D3B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Space Race", "Space Race.csproj", "{DEFFE55D-11DB-4516-996B-168D016683B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,11 +9,11 @@ Global
 	ExportRelease|Any CPU = ExportRelease|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BE800E7D-F772-479C-80F0-7E5A00580D3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BE800E7D-F772-479C-80F0-7E5A00580D3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BE800E7D-F772-479C-80F0-7E5A00580D3B}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
-		{BE800E7D-F772-479C-80F0-7E5A00580D3B}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
-		{BE800E7D-F772-479C-80F0-7E5A00580D3B}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
-		{BE800E7D-F772-479C-80F0-7E5A00580D3B}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+		{DEFFE55D-11DB-4516-996B-168D016683B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEFFE55D-11DB-4516-996B-168D016683B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEFFE55D-11DB-4516-996B-168D016683B5}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
+		{DEFFE55D-11DB-4516-996B-168D016683B5}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
+		{DEFFE55D-11DB-4516-996B-168D016683B5}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{DEFFE55D-11DB-4516-996B-168D016683B5}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
 	EndGlobalSection
 EndGlobal
