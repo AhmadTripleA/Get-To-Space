@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="Recipe" load_steps=8 format=3 uid="uid://gchbn4su6jcl"]
+[gd_resource type="Resource" script_class="Recipe" load_steps=8 format=3 uid="uid://dj7y1k45mc1pt"]
 
 [ext_resource type="Texture2D" uid="uid://b1jewycnm8tbp" path="res://icon.svg" id="1_v0qhj"]
 [ext_resource type="Resource" uid="uid://bgfdt7rofkw3a" path="res://Assets/Items/wood.tres" id="2_rfqmg"]

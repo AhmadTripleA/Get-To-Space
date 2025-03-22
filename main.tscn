@@ -12,7 +12,7 @@
 [ext_resource type="Script" uid="uid://cmb0mxnsxotf1" path="res://Code/UI/CraftMenu.cs" id="7_kek77"]
 [ext_resource type="Script" uid="uid://b5aowe54ky0nf" path="res://Code/Managers/UiNavManager.cs" id="8_efxa6"]
 [ext_resource type="Script" uid="uid://7pq42mwdmlfe" path="res://Code/UI/InventoryMenu.cs" id="11_dg77c"]
-[ext_resource type="PackedScene" uid="uid://ul5gdntvo31r" path="res://Scenes/button_xs.tscn" id="12_ycdy4"]
+[ext_resource type="PackedScene" uid="uid://ul5gdntvo31r" path="res://Scenes/inventory_slot_s.tscn" id="12_ycdy4"]
 [ext_resource type="PackedScene" uid="uid://d06skoo5nxkkp" path="res://Scenes/iron_node.tscn" id="14_w48qg"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ig7tw"]
@@ -152,9 +152,8 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="InventoryGrid" type="GridContainer" parent="UI/Inventory and Craft/Inventory/BG"]
-clip_contents = true
 layout_mode = 2
-columns = 2
+columns = 3
 
 [node name="Crafting Menu" type="Control" parent="UI/Inventory and Craft" node_paths=PackedStringArray("GridContainer")]
 layout_mode = 1
