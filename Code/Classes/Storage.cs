@@ -47,9 +47,9 @@ public partial class Storage : Node
         // Try adding to an existing stack
         foreach (var stack in _items)
         {
-            if (stack != null && stack.Item == item)
+            if (stack != null)
             {
-                quantity = stack.AddToStack(quantity); // Remaining items after adding
+                quantity = stack.AddToStack(item, quantity); // Remaining items after adding
                 if (quantity == 0) return 0; // All items added
             }
         }

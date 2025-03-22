@@ -6,8 +6,8 @@ public partial class Crafter : Node
 {
     [Export] public float CraftingSpeed = 1f;
     [Export] public Recipe Recipe;
-    public List<Storage> Inputs = new();
-    public List<Storage> Outputs = new();
+    public List<Storage> Inputs = [];
+    public List<Storage> Outputs = [];
 
     private bool isCrafting = false;
     private bool isActive = true;
@@ -29,7 +29,7 @@ public partial class Crafter : Node
         // Add and configure crafting timer
         craftingTimer = new Timer();
         AddChild(craftingTimer);
-        craftingTimer.OneShot = false; // ✅ Keep running indefinitely
+        craftingTimer.OneShot = false; // Keep running indefinitely
         craftingTimer.Connect("timeout", Callable.From(OnCraftingFinished));
     }
 
