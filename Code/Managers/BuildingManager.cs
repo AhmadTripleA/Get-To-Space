@@ -9,7 +9,7 @@ public partial class BuildingManager : Node3D
 
     private Camera3D camera;
     private Node3D previewBuilding = null;  // The preview building instance
-    private PackedScene buildingScene = null; // The actual building scene to place
+    private Item buildingItem;
     private bool inPlaceMode = false;         // Whether we're currently in "place mode"
     private bool canPlace = true;             // Detect overlapping geometry
 
@@ -45,23 +45,17 @@ public partial class BuildingManager : Node3D
         return newBuilding;
     }
 
-    public void InitBuilding(Item buildingItem)
+    public void InitBuilding(Item item)
     {
         // if item has no building, do nothing
-        if(buildingItem.BuildingScene == null) return;
-
-        if (player.storage.GetItemCount(buildingItem) < 1)
-        {
-            GD.Print("You don't have this building item in your inventory!");
-            return;
-        }
+        if (item.BuildingScene == null) return;
 
         CleanUp(); // Remove any existing preview
 
-        buildingScene = buildingItem.BuildingScene;
+        buildingItem = item;
 
         // Create a separate preview instance
-        previewBuilding = (Node3D)buildingScene.Instantiate();
+        previewBuilding = (Node3D)item.BuildingScene.Instantiate();
         ApplyPreviewEffects(previewBuilding);
         AddChild(previewBuilding);
         inPlaceMode = true;
@@ -76,11 +70,20 @@ public partial class BuildingManager : Node3D
     {
         if (previewBuilding == null) return;
 
+        // Remove the item from inventory
+        int removed = player.storage.RemoveItem(buildingItem, 1);
+        if(removed == 0) 
+        {
+            GD.Print($"Missing Item from Inventory: {buildingItem.Name}x1");
+            CleanUp();
+            return;
+        }
+
         // Get final placement position
         Vector3 finalPosition = GetMouseWorldPosition();
 
         // Instantiate the actual building
-        var newBuilding = Build(buildingScene, finalPosition);
+        var newBuilding = Build(buildingItem.BuildingScene, finalPosition);
         AddChild(newBuilding);
 
         // Cleanup preview
@@ -96,7 +99,7 @@ public partial class BuildingManager : Node3D
         }
 
         inPlaceMode = false;
-        buildingScene = null;
+        buildingItem = null;
     }
 
     private Vector3 GetMouseWorldPosition()

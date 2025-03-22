@@ -30,9 +30,18 @@ public partial class InventoryMenu : Control
                 Button inventorySlot = InventorySlotPrefab.Instantiate<Button>();
                 inventorySlot.Icon = stack.Item.Icon;
                 inventorySlot.Text = stack.Quantity.ToString();
+
                 if (stack.Item.BuildingScene != null)
-                    inventorySlot.Pressed += () => BuildingManager.Instance.InitBuilding(stack.Item);
+                {
+                    inventorySlot.Pressed += () =>
+                    {
+                        BuildingManager.Instance.InitBuilding(stack.Item);
+                        UiNavManager.CloseAll();
+                    };
+                }
+
                 GridContainer.AddChild(inventorySlot);
+
             }
         }
 
