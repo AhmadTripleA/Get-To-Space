@@ -4,33 +4,18 @@ public partial class CraftMenu : Control
 {
     [Export] private GridContainer GridContainer; // Assign in the Inspector
     [Export] private PackedScene ItemButtonPrefab; // A reusable button template
-    [Export] private Button MenuToggleButton; // Button to toggle menu
 
     private bool isOpen = false;
 
     public override void _Ready()
     {
-        MenuToggleButton.Pressed += ToggleMenu;
         RecipeDB.OnRecipesLoaded += PopulateMenu;
-        InputManager.CancelAction += CloseMenu;
-        Hide(); // Start hidden
     }
 
-    static void OnRecipeSelected(Recipe selectedRecipe)
+    void OnRecipeSelected(Recipe selectedRecipe)
     {
         GD.Print($"Selected Recipe: {selectedRecipe.Name}");
-        // BuildingManager.Instance.StartPlacing(selectedRecipe.BuildingScene);
-    }
-
-    private void ToggleMenu()
-    {
-        isOpen = !isOpen;
-        Visible = isOpen;
-    }
-    private void CloseMenu()
-    {
-        isOpen = false;
-        Hide();
+        CraftingManager.Instance.AddToCraftingQueue(selectedRecipe);
     }
 
     private void PopulateMenu()

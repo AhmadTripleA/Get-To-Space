@@ -3,8 +3,14 @@ using System.Collections.Generic;
 
 public partial class Storage : Node
 {
-    [Export] public int Capacity = 20; // Default inventory size
+    [Export] public int Capacity; // Default inventory size
     private List<ItemStack> _items = [];
+
+    public Storage()
+    {
+        Capacity = 1;
+        _items = [];
+    }
 
     public Storage(int capacity)
     {

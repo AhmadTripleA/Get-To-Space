@@ -4,5 +4,5 @@ using Godot;
 public partial class RecipeEntry : Resource
 {
     [Export] public Item Item;
-    [Export] public int Quantity;
+    [Export] public int Amount;
 }

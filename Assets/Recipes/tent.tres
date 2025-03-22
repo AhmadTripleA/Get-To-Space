@@ -9,13 +9,13 @@
 [sub_resource type="Resource" id="Resource_8bf71"]
 script = ExtResource("3_65af5")
 Item = ExtResource("2_yp6l5")
-Quantity = 5
+Amount = 0
 metadata/_custom_type_script = "uid://c3qjwd34y2dbm"
 
 [sub_resource type="Resource" id="Resource_65af5"]
 script = ExtResource("3_65af5")
 Item = ExtResource("4_yp6l5")
-Quantity = 1
+Amount = 0
 metadata/_custom_type_script = "uid://c3qjwd34y2dbm"
 
 [resource]
@@ -23,7 +23,7 @@ script = ExtResource("4_bc63p")
 Id = 1
 Name = "Tent"
 Icon = ExtResource("1_y2qsn")
-CraftingTime = 10.0
+CraftingTime = 3.0
 Inputs = [SubResource("Resource_8bf71")]
 Outputs = [SubResource("Resource_65af5")]
 metadata/_custom_type_script = "uid://dtno808brd3rb"

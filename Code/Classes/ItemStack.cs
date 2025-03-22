@@ -4,13 +4,10 @@ public class ItemStack
 {
     public Item Item { get; private set; }
     public int Quantity { get; private set; }
-    public bool IsReserved { get; private set; } // is this stack reserved for the item type ?
-
     public ItemStack(Item item, int quantity, bool isReserved = false)
     {
         Item = item;
         Quantity = Mathf.Min(quantity, item.MaxStackSize);
-        IsReserved = isReserved;
     }
 
     public int AddToStack(Item item, int amount)

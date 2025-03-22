@@ -49,14 +49,14 @@ public partial class Crafter : Node
         foreach (var entry in selectedRecipe.Inputs)
         {
             int totalAvailable = inputs.Sum(storage => storage.GetItemCount(entry.Item));
-            if (totalAvailable < entry.Quantity)
+            if (totalAvailable < entry.Amount)
                 return false; // Not enough input
         }
 
         // Ensure outputs can be stored
         foreach (var entry in selectedRecipe.Outputs)
         {
-            bool canStore = outputs.Any(storage => storage.CanStoreItem(entry.Item, entry.Quantity));
+            bool canStore = outputs.Any(storage => storage.CanStoreItem(entry.Item, entry.Amount));
             if (!canStore)
                 return false; // Not enough space for output
         }
@@ -71,7 +71,7 @@ public partial class Crafter : Node
         // Remove inputs
         foreach (var entry in selectedRecipe.Inputs)
         {
-            int amountNeeded = entry.Quantity;
+            int amountNeeded = entry.Amount;
             foreach (var storage in inputs)
             {
                 amountNeeded -= storage.RemoveItem(entry.Item, amountNeeded);
@@ -91,7 +91,7 @@ public partial class Crafter : Node
         {
             foreach (var storage in outputs)
             {
-                int remaining = storage.AddItem(entry.Item, entry.Quantity);
+                int remaining = storage.AddItem(entry.Item, entry.Amount);
                 if (remaining == 0) break; // Fully stored
             }
         }

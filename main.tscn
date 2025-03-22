@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://iyceefjwx0dt"]
+[gd_scene load_steps=14 format=3 uid="uid://iyceefjwx0dt"]
 
 [ext_resource type="PackedScene" uid="uid://c8sy8a8p18r5n" path="res://Scenes/player.tscn" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://bdwjkketqdfob" path="res://Code/Managers/CameraController.cs" id="2_kek77"]
@@ -7,8 +7,10 @@
 [ext_resource type="PackedScene" uid="uid://ktjg7djaa2wg" path="res://Scenes/texture_button.tscn" id="5_lquwl"]
 [ext_resource type="Script" uid="uid://wmwwd44ufhyy" path="res://Code/Managers/GameManager.cs" id="6_4c57u"]
 [ext_resource type="Script" uid="uid://b3n80o1uequ0s" path="res://Code/Managers/InputManager.cs" id="6_kek77"]
+[ext_resource type="Script" uid="uid://bt5dqovvg7370" path="res://Code/Managers/CraftingManager.cs" id="7_4c57u"]
 [ext_resource type="Material" uid="uid://lfuqpstgf8l1" path="res://Assets/Materials/previewMaterial.tres" id="7_5vw27"]
 [ext_resource type="Script" uid="uid://cmb0mxnsxotf1" path="res://Code/UI/CraftMenu.cs" id="7_kek77"]
+[ext_resource type="Script" uid="uid://b5aowe54ky0nf" path="res://Code/Managers/UiNavManager.cs" id="8_efxa6"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ig7tw"]
 size = Vector3(31.4346, 1, 28.7737)
@@ -53,92 +55,187 @@ PreviewMaterial = ExtResource("7_5vw27")
 [node name="Input Manager" type="Node" parent="Config"]
 script = ExtResource("6_kek77")
 
-[node name="Craft Menu" type="Control" parent="." node_paths=PackedStringArray("GridContainer", "MenuToggleButton")]
+[node name="Crafting MNGR" type="Node" parent="Config" node_paths=PackedStringArray("player")]
+script = ExtResource("7_4c57u")
+player = NodePath("../../Player")
+
+[node name="UI" type="Control" parent="." node_paths=PackedStringArray("InventoryControl", "BuildControl")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 32.0
-offset_top = 272.0
-offset_right = -536.0
-offset_bottom = -40.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("7_kek77")
-GridContainer = NodePath("BG/recipeGridContainer")
-ItemButtonPrefab = ExtResource("5_lquwl")
-MenuToggleButton = NodePath("../UI/Toggle Craft")
+script = ExtResource("8_efxa6")
+InventoryControl = NodePath("Inventory and Craft")
+BuildControl = NodePath("Build Menu")
 
-[node name="BG" type="PanelContainer" parent="Craft Menu"]
-custom_minimum_size = Vector2(50, 100)
+[node name="Buttons" type="Control" parent="UI"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-pivot_offset = Vector2(150, 300)
-
-[node name="recipeGridContainer" type="GridContainer" parent="Craft Menu/BG"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-columns = 2
-
-[node name="Build Menu" type="Control" parent="." node_paths=PackedStringArray("GridContainer", "MenuToggleButton")]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 792.0
-offset_top = 32.0
-offset_right = -32.0
-offset_bottom = -40.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("4_1bvp3")
-GridContainer = NodePath("BG/itemGridContainer")
-ItemButtonPrefab = ExtResource("5_lquwl")
-MenuToggleButton = NodePath("../UI/Toggle Build")
-
-[node name="BG" type="PanelContainer" parent="Build Menu"]
-custom_minimum_size = Vector2(50, 100)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-pivot_offset = Vector2(150, 300)
-
-[node name="itemGridContainer" type="GridContainer" parent="Build Menu/BG"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-columns = 2
-
-[node name="UI" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 32.0
-offset_top = 24.0
-offset_right = -976.0
-offset_bottom = -472.0
+offset_left = 56.0
+offset_top = 64.0
+offset_right = -952.0
+offset_bottom = -432.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Toggle Build" type="Button" parent="UI"]
+[node name="Toggle Build" type="Button" parent="UI/Buttons"]
+layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 136.0
 offset_bottom = 72.0
 text = "Build"
 
-[node name="Toggle Craft" type="Button" parent="UI"]
+[node name="Toggle Inventory" type="Button" parent="UI/Buttons"]
+layout_mode = 0
 offset_left = 8.0
 offset_top = 80.0
 offset_right = 136.0
 offset_bottom = 144.0
 text = "Craft"
+
+[node name="Build Menu" type="Control" parent="UI" node_paths=PackedStringArray("GridContainer")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 792.0
+offset_top = 64.0
+offset_right = -64.0
+offset_bottom = -72.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_1bvp3")
+GridContainer = NodePath("BG/itemGridContainer")
+ItemButtonPrefab = ExtResource("5_lquwl")
+
+[node name="BG" type="PanelContainer" parent="UI/Build Menu"]
+custom_minimum_size = Vector2(50, 100)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(150, 300)
+
+[node name="itemGridContainer" type="GridContainer" parent="UI/Build Menu/BG"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+columns = 2
+
+[node name="Inventory and Craft" type="Control" parent="UI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -320.0
+offset_top = -204.0
+offset_right = 320.0
+offset_bottom = 196.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Inventory" type="Control" parent="UI/Inventory and Craft"]
+layout_mode = 1
+anchor_left = -0.1
+anchor_top = 0.02
+anchor_right = 1.0
+anchor_bottom = 0.98
+offset_left = 328.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BG" type="PanelContainer" parent="UI/Inventory and Craft/Inventory"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.717
+anchor_top = -0.022
+anchor_right = 1.0
+anchor_bottom = 1.022
+offset_left = 263.856
+offset_top = 0.0960007
+offset_bottom = -0.0960388
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="InventoryGrid" type="GridContainer" parent="UI/Inventory and Craft/Inventory/BG"]
+visible = false
+layout_mode = 2
+
+[node name="Crafting Menu" type="Control" parent="UI/Inventory and Craft" node_paths=PackedStringArray("GridContainer")]
+layout_mode = 1
+anchor_left = -0.1
+anchor_top = 0.02
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 72.0
+offset_top = 8.0
+offset_right = -384.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("7_kek77")
+GridContainer = NodePath("BG/CraftingGrid")
+ItemButtonPrefab = ExtResource("5_lquwl")
+
+[node name="BG" type="PanelContainer" parent="UI/Inventory and Craft/Crafting Menu"]
+custom_minimum_size = Vector2(50, 100)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(150, 300)
+
+[node name="CraftingGrid" type="GridContainer" parent="UI/Inventory and Craft/Crafting Menu/BG"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+columns = 2
+
+[node name="Progress Bar" type="Control" parent="UI/Inventory and Craft"]
+layout_mode = 1
+anchor_left = 0.5
+anchor_top = 0.062
+anchor_right = 0.5
+anchor_bottom = 0.062
+offset_left = -192.0
+offset_top = -80.8
+offset_right = 192.0
+offset_bottom = -48.8
+grow_horizontal = 2
+
+[node name="Panel" type="Panel" parent="UI/Inventory and Craft/Progress Bar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CraftingPorgressBar" type="TextureProgressBar" parent="UI/Inventory and Craft/Progress Bar/Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.021
+anchor_top = 0.5
+anchor_right = 0.021
+anchor_bottom = 0.5
+offset_left = 7.936
+offset_top = -13.0
+offset_right = 359.936
+offset_bottom = 14.0
+grow_vertical = 2

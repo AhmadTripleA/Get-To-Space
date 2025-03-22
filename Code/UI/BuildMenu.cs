@@ -4,33 +4,19 @@ public partial class BuildMenu : Control
 {
     [Export] private GridContainer GridContainer; // Assign in the Inspector
     [Export] private PackedScene ItemButtonPrefab; // A reusable button template
-    [Export] private Button MenuToggleButton; // Button to toggle menu
 
     private bool isOpen = false;
 
     public override void _Ready()
     {
-        MenuToggleButton.Pressed += ToggleMenu;
         ItemDB.OnItemsLoaded += PopulateMenu;
-        InputManager.CancelAction += CloseMenu;
-        Hide(); // Start hidden
     }
 
-    static void OnItemSelected(Item selectedItem)
+    void OnItemSelected(Item selectedItem)
     {
         GD.Print($"Selected: {selectedItem.Name}");
         BuildingManager.Instance.StartPlacing(selectedItem.BuildingScene);
-    }
-
-    private void ToggleMenu()
-    {
-        isOpen = !isOpen;
-        Visible = isOpen;
-    }
-    private void CloseMenu()
-    {
-        isOpen = false;
-        Hide();
+        UiNavManager.CloseUI(this);
     }
 
     private void PopulateMenu()
