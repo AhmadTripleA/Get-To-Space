@@ -5,6 +5,7 @@ public partial class BuildingManager : Node3D
     public static BuildingManager Instance { get; private set; }
     [Export] public float SnapDistance = 0.1f;  // The distance to snap the building to the floor
     [Export] public StandardMaterial3D PreviewMaterial;
+    [Export] public Player player;
 
     private Camera3D camera;
     private Node3D previewBuilding = null;  // The preview building instance
@@ -44,11 +45,20 @@ public partial class BuildingManager : Node3D
         return newBuilding;
     }
 
-    public void StartPlacing(PackedScene buildingScene)
+    public void InitBuilding(Item buildingItem)
     {
+        // if item has no building, do nothing
+        if(buildingItem.BuildingScene == null) return;
+
+        if (player.storage.GetItemCount(buildingItem) < 1)
+        {
+            GD.Print("You don't have this building item in your inventory!");
+            return;
+        }
+
         CleanUp(); // Remove any existing preview
 
-        this.buildingScene = buildingScene;
+        buildingScene = buildingItem.BuildingScene;
 
         // Create a separate preview instance
         previewBuilding = (Node3D)buildingScene.Instantiate();

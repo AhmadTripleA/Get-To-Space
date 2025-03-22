@@ -5,9 +5,9 @@ public partial class Storage : Node
 {
     [Export] public int Capacity = 20; // Default inventory size
     private List<ItemStack> itemStacks = [];
-
     [Signal]
     public delegate void InventoryChangedEventHandler(); // Signal for UI updates
+
 
     public Storage() { itemStacks = [.. new ItemStack[Capacity]]; }
 
@@ -100,22 +100,31 @@ public partial class Storage : Node
     {
         int remaining = quantity;
 
+        // Check existing stacks for space
         foreach (var stack in itemStacks)
         {
             if (stack != null && stack.Item == item)
             {
-                remaining = stack.SpaceLeft();
-                if (remaining == 0) return true;
+                int space = stack.SpaceLeft();
+                int toStore = Mathf.Min(space, remaining);
+                remaining -= toStore;
+                if (remaining == 0) return true; // All items fit
             }
         }
 
+        // Check if we have enough empty slots for the remaining items
         foreach (var slot in itemStacks)
         {
-            if (slot == null) return true;
+            if (slot == null)
+            {
+                remaining -= item.MaxStackSize;
+                if (remaining <= 0) return true;
+            }
         }
 
         return false;
     }
+
 
     public List<ItemStack> GetAllStacks()
     {

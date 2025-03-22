@@ -41,12 +41,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0210257, 2.52834, -0.03848
 MoveSpeed = 7.0
 RotationSpeed = 12.0
 
-[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("Target")]
+[node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.705674, 0.708537, 0, -0.708537, 0.705674, 0, 8.09526, 10.0842)
 fov = 60.0
 script = ExtResource("2_kek77")
-Target = NodePath("../Player")
-Offset = Vector3(0, 7, 6)
 
 [node name="Config" type="Node" parent="."]
 

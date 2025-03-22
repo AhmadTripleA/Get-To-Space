@@ -15,7 +15,7 @@ public partial class BuildMenu : Control
     void OnItemSelected(Item selectedItem)
     {
         GD.Print($"Selected: {selectedItem.Name}");
-        BuildingManager.Instance.StartPlacing(selectedItem.BuildingScene);
+        BuildingManager.Instance.InitBuilding(selectedItem);
         UiNavManager.CloseUI(this);
     }
 

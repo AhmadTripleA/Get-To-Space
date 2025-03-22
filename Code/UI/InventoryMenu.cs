@@ -27,10 +27,12 @@ public partial class InventoryMenu : Control
         {
             if (stack != null)
             {
-                Button slot = InventorySlotPrefab.Instantiate<Button>();
-                slot.Icon = stack.Item.Icon;
-                slot.Text = stack.Quantity.ToString();
-                GridContainer.AddChild(slot);
+                Button inventorySlot = InventorySlotPrefab.Instantiate<Button>();
+                inventorySlot.Icon = stack.Item.Icon;
+                inventorySlot.Text = stack.Quantity.ToString();
+                if (stack.Item.BuildingScene != null)
+                    inventorySlot.Pressed += () => BuildingManager.Instance.InitBuilding(stack.Item);
+                GridContainer.AddChild(inventorySlot);
             }
         }
 
