@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://ul5gdntvo31r"]
+
+[ext_resource type="Texture2D" uid="uid://b1jewycnm8tbp" path="res://icon.svg" id="1_sqeny"]
+
+[node name="Button" type="Button"]
+offset_right = 168.0
+offset_bottom = 136.0
+text = "100"
+icon = ExtResource("1_sqeny")

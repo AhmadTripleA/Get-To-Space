@@ -4,7 +4,13 @@ public class ItemStack
 {
     public Item Item { get; private set; }
     public int Quantity { get; private set; }
-    public ItemStack(Item item, int quantity, bool isReserved = false)
+
+    public ItemStack()
+    {
+        Item = null;
+        Quantity = 0;
+    }
+    public ItemStack(Item item, int quantity)
     {
         Item = item;
         Quantity = Mathf.Min(quantity, item.MaxStackSize);
@@ -12,12 +18,13 @@ public class ItemStack
 
     public int AddToStack(Item item, int amount)
     {
+        // trying to add different items together
         if (item != Item) return amount;
 
         int spaceLeft = Item.MaxStackSize - Quantity;
         int added = Mathf.Min(spaceLeft, amount);
         Quantity += added;
-        return amount - added; // Return remaining items that couldn't fit
+        return amount - added; // Remaining items that couldn't fit
     }
 
     public int RemoveFromStack(int amount)
@@ -27,11 +34,7 @@ public class ItemStack
         return removed;
     }
 
-    public int SpaceLeft(int amount)
-    {
-        int spaceLeft = Item.MaxStackSize - Quantity;
-        return Mathf.Max(0, amount - spaceLeft); // Returns the excess that won't fit
-    }
+    public int SpaceLeft() => Item.MaxStackSize - Quantity;
 
     public bool IsEmpty() => Quantity <= 0;
 }

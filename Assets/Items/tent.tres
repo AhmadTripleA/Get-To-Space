@@ -9,6 +9,6 @@ script = ExtResource("1_7rfwo")
 Id = 3
 Name = "Tent"
 Icon = ExtResource("2_t7vnp")
-MaxStackSize = 50
+MaxStackSize = 12
 BuildingScene = ExtResource("1_uby24")
 metadata/_custom_type_script = "uid://b6tdf6pbtx8rv"

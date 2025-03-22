@@ -4,7 +4,7 @@ public partial class Player : CharacterBody3D
 {
     [Export] public float MoveSpeed = 5f;
     [Export] public float RotationSpeed = 10f;
-    public Storage storage = new Storage(20);
+    public Storage storage = new Storage(5);
     private Vector3 _velocity = Vector3.Zero;
     private float _gravity = 10f;
 

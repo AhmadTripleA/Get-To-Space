@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://iyceefjwx0dt"]
+[gd_scene load_steps=16 format=3 uid="uid://iyceefjwx0dt"]
 
 [ext_resource type="PackedScene" uid="uid://c8sy8a8p18r5n" path="res://Scenes/player.tscn" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://bdwjkketqdfob" path="res://Code/Managers/CameraController.cs" id="2_kek77"]
@@ -11,6 +11,8 @@
 [ext_resource type="Material" uid="uid://lfuqpstgf8l1" path="res://Assets/Materials/previewMaterial.tres" id="7_5vw27"]
 [ext_resource type="Script" uid="uid://cmb0mxnsxotf1" path="res://Code/UI/CraftMenu.cs" id="7_kek77"]
 [ext_resource type="Script" uid="uid://b5aowe54ky0nf" path="res://Code/Managers/UiNavManager.cs" id="8_efxa6"]
+[ext_resource type="Script" uid="uid://7pq42mwdmlfe" path="res://Code/UI/InventoryMenu.cs" id="11_dg77c"]
+[ext_resource type="PackedScene" uid="uid://ul5gdntvo31r" path="res://Scenes/button_xs.tscn" id="12_ycdy4"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ig7tw"]
 size = Vector3(31.4346, 1, 28.7737)
@@ -144,7 +146,7 @@ offset_bottom = 196.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Inventory" type="Control" parent="UI/Inventory and Craft"]
+[node name="Inventory" type="Control" parent="UI/Inventory and Craft" node_paths=PackedStringArray("player", "GridContainer")]
 layout_mode = 1
 anchor_left = -0.1
 anchor_top = 0.02
@@ -156,6 +158,10 @@ offset_right = -8.0
 offset_bottom = -8.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("11_dg77c")
+player = NodePath("../../../Player")
+GridContainer = NodePath("BG/InventoryGrid")
+InventorySlotPrefab = ExtResource("12_ycdy4")
 
 [node name="BG" type="PanelContainer" parent="UI/Inventory and Craft/Inventory"]
 layout_mode = 1
@@ -171,8 +177,9 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="InventoryGrid" type="GridContainer" parent="UI/Inventory and Craft/Inventory/BG"]
-visible = false
+clip_contents = true
 layout_mode = 2
+columns = 2
 
 [node name="Crafting Menu" type="Control" parent="UI/Inventory and Craft" node_paths=PackedStringArray("GridContainer")]
 layout_mode = 1

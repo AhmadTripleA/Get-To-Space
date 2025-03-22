@@ -3,161 +3,137 @@ using System.Collections.Generic;
 
 public partial class Storage : Node
 {
-    [Export] public int Capacity; // Default inventory size
-    private List<ItemStack> _items = [];
+    [Export] public int Capacity = 20; // Default inventory size
+    private List<ItemStack> itemStacks = [];
 
-    public Storage()
-    {
-        Capacity = 1;
-        _items = [];
-    }
+    [Signal]
+    public delegate void InventoryChangedEventHandler(); // Signal for UI updates
+
+    public Storage() { itemStacks = [.. new ItemStack[Capacity]]; }
 
     public Storage(int capacity)
     {
         Capacity = capacity;
-        _items = [];
+        itemStacks = [.. new ItemStack[Capacity]];
     }
 
     public override void _Ready()
     {
         // Initialize empty slots
-        for (int i = 0; i < Capacity; i++)
-        {
-            _items.Add(null); // Empty slot
-        }
+        for (int i = 0; i < Capacity; i++) itemStacks[i] = null;
     }
 
-    /// <summary>
-    /// Transfers items from one storage to another.
-    /// </summary>
     public static int TransferItem(Storage from, Storage to, Item item, int quantity)
     {
         int removed = from.RemoveItem(item, quantity);
         int remaining = to.AddItem(item, removed);
-
-        if (remaining > 0)
-        {
-            // If not all items were transferred, return the extra to the original storage
-            from.AddItem(item, remaining);
-        }
-
-        return removed - remaining; // Number of successfully transferred items
+        if (remaining > 0) from.AddItem(item, remaining);
+        return removed - remaining;
     }
 
-    /// <summary>
-    /// Adds an item to the storage, respecting stack sizes and capacity.
-    /// </summary>
-    /// <returns>Returns the number of items that could NOT be added.</returns>
     public int AddItem(Item item, int quantity)
     {
-        // Try adding to an existing stack
-        foreach (var stack in _items)
+        // Try adding to existing stacks.
+        foreach (var stack in itemStacks)
         {
-            if (stack != null)
+            if (stack != null && stack.Item == item)
             {
-                quantity = stack.AddToStack(item, quantity); // Remaining items after adding
-                if (quantity == 0) return 0; // All items added
+                quantity = stack.AddToStack(item, quantity);
+                if (quantity == 0) break; // If everything was added, exit the loop.
             }
         }
 
-        // Add to an empty slot
-        for (int i = 0; i < _items.Count; i++)
+        // Add to an empty slot if necessary.
+        for (int i = 0; i < itemStacks.Count; i++)
         {
-            if (_items[i] == null)
+            if (itemStacks[i] == null && quantity > 0) // Only if there is still something to add
             {
                 int added = Mathf.Min(quantity, item.MaxStackSize);
-                _items[i] = new ItemStack(item, added);
+                itemStacks[i] = new ItemStack(item, added);
                 quantity -= added;
-                if (quantity == 0) return 0; // Fully added
+                if (quantity == 0) break; // Done adding items, exit loop.
             }
         }
 
-        return quantity; // Return remaining items that couldn't fit
+        // If there is still remaining quantity, return it (items that couldn't fit)
+        EmitSignal(SignalName.InventoryChanged);
+        return quantity;
     }
 
-    /// <summary>
-    /// Removes an item from storage.
-    /// </summary>
-    /// <returns>Returns the number of items successfully removed.</returns>
     public int RemoveItem(Item item, int quantity)
     {
         int totalRemoved = 0;
 
-        for (int i = 0; i < _items.Count; i++)
+        for (int i = 0; i < itemStacks.Count; i++)
         {
-            if (_items[i] != null && _items[i].Item == item)
+            if (itemStacks[i] != null && itemStacks[i].Item == item)
             {
-                int removed = _items[i].RemoveFromStack(quantity);
+                int removed = itemStacks[i].RemoveFromStack(quantity);
                 totalRemoved += removed;
                 quantity -= removed;
 
-                if (_items[i].IsEmpty())
-                {
-                    _items[i] = null; // Remove empty stacks
-                }
+                if (itemStacks[i].IsEmpty()) itemStacks[i] = null;
 
-                if (quantity <= 0) return totalRemoved; // Stop when fully removed
+                if (quantity <= 0)
+                {
+                    EmitSignal(SignalName.InventoryChanged);
+                    return totalRemoved;
+                }
             }
         }
 
-        return totalRemoved; // Return how many were removed
+        EmitSignal(SignalName.InventoryChanged);
+        return totalRemoved;
     }
 
-    /// <summary>
-    /// Gets the total count of a specific item in storage.
-    /// </summary>
     public int GetItemCount(Item item)
     {
         int total = 0;
-        foreach (var stack in _items)
+        foreach (var stack in itemStacks)
         {
-            if (stack != null && stack.Item == item)
-            {
-                total += stack.Quantity;
-            }
+            if (stack != null && stack.Item == item) total += stack.Quantity;
         }
         return total;
     }
 
-    /// <summary>
-    /// Checks if the storage has enough space to store a given item.
-    /// </summary>
     public bool CanStoreItem(Item item, int quantity)
     {
         int remaining = quantity;
 
-        // Check existing stacks for space
-        foreach (var stack in _items)
+        foreach (var stack in itemStacks)
         {
             if (stack != null && stack.Item == item)
             {
-                remaining = stack.SpaceLeft(remaining);
-                if (remaining == 0) return true; // Can fully store
+                remaining = stack.SpaceLeft();
+                if (remaining == 0) return true;
             }
         }
 
-        // Check for empty slots
-        foreach (var slot in _items)
+        foreach (var slot in itemStacks)
         {
-            if (slot == null)
-            {
-                return true; // Empty slot available
-            }
+            if (slot == null) return true;
         }
 
-        return false; // No space left
+        return false;
     }
 
-    /// <summary>
-    /// Debug method to print storage contents.
-    /// </summary>
+    public List<ItemStack> GetAllStacks()
+    {
+        List<ItemStack> nonEmptyStacks = [];
+        foreach (var stack in itemStacks)
+        {
+            if (stack != null) nonEmptyStacks.Add(stack);
+        }
+        return nonEmptyStacks;
+    }
+
     public void PrintStorage()
     {
         GD.Print("Storage contents:");
-        for (int i = 0; i < _items.Count; i++)
+        for (int i = 0; i < itemStacks.Count; i++)
         {
-            if (_items[i] != null)
-                GD.Print($"{i}: {_items[i].Item.Name} x{_items[i].Quantity}");
+            if (itemStacks[i] != null)
+                GD.Print($"{i}: {itemStacks[i].Item.Name} x{itemStacks[i].Quantity}");
             else
                 GD.Print($"{i}: Empty");
         }
