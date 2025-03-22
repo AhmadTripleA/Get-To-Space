@@ -21,13 +21,9 @@ public partial class Storage : Node
         }
     }
 
-
-    /// <summary> Transfers items from one storage to another. </summary>
-    /// <param name="from">The source storage.</param>
-    /// <param name="to">The destination storage.</param>
-    /// <param name="item">The item to transfer.</param>
-    /// <param name="quantity">The number of items to transfer.</param>
-    /// <returns>The number of items successfully transferred, if 0, then none were transfered</returns>
+    /// <summary>
+    /// Transfers items from one storage to another.
+    /// </summary>
     public static int TransferItem(Storage from, Storage to, Item item, int quantity)
     {
         int removed = from.RemoveItem(item, quantity);
@@ -35,14 +31,17 @@ public partial class Storage : Node
 
         if (remaining > 0)
         {
-            // If not all items were transferred, give back the extra to the original storage
+            // If not all items were transferred, return the extra to the original storage
             from.AddItem(item, remaining);
         }
 
-        return removed - remaining; // Return the number of items successfully transferred
+        return removed - remaining; // Number of successfully transferred items
     }
 
-
+    /// <summary>
+    /// Adds an item to the storage, respecting stack sizes and capacity.
+    /// </summary>
+    /// <returns>Returns the number of items that could NOT be added.</returns>
     public int AddItem(Item item, int quantity)
     {
         // Try adding to an existing stack
@@ -70,7 +69,10 @@ public partial class Storage : Node
         return quantity; // Return remaining items that couldn't fit
     }
 
-
+    /// <summary>
+    /// Removes an item from storage.
+    /// </summary>
+    /// <returns>Returns the number of items successfully removed.</returns>
     public int RemoveItem(Item item, int quantity)
     {
         int totalRemoved = 0;
@@ -95,6 +97,54 @@ public partial class Storage : Node
         return totalRemoved; // Return how many were removed
     }
 
+    /// <summary>
+    /// Gets the total count of a specific item in storage.
+    /// </summary>
+    public int GetItemCount(Item item)
+    {
+        int total = 0;
+        foreach (var stack in _items)
+        {
+            if (stack != null && stack.Item == item)
+            {
+                total += stack.Quantity;
+            }
+        }
+        return total;
+    }
+
+    /// <summary>
+    /// Checks if the storage has enough space to store a given item.
+    /// </summary>
+    public bool CanStoreItem(Item item, int quantity)
+    {
+        int remaining = quantity;
+
+        // Check existing stacks for space
+        foreach (var stack in _items)
+        {
+            if (stack != null && stack.Item == item)
+            {
+                remaining = stack.SpaceLeft(remaining);
+                if (remaining == 0) return true; // Can fully store
+            }
+        }
+
+        // Check for empty slots
+        foreach (var slot in _items)
+        {
+            if (slot == null)
+            {
+                return true; // Empty slot available
+            }
+        }
+
+        return false; // No space left
+    }
+
+    /// <summary>
+    /// Debug method to print storage contents.
+    /// </summary>
     public void PrintStorage()
     {
         GD.Print("Storage contents:");

@@ -24,7 +24,7 @@ public partial class BuildMenu : Control
     private void CloseMenu()
     {
         isOpen = false;
-        Visible = false;
+        Hide();
     }
 
     private void PopulateMenu()

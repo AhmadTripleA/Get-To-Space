@@ -2,12 +2,12 @@
 
 [ext_resource type="Script" uid="uid://cysjrnkf7jl24" path="res://Code/Config/GameManager.cs" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://c8sy8a8p18r5n" path="res://Scenes/player.tscn" id="1_ig7tw"]
-[ext_resource type="Script" uid="uid://dxao7adc1mgoy" path="res://Code/CameraController.cs" id="3_h2yge"]
+[ext_resource type="Script" uid="uid://bvbtdfp5esygx" path="res://Code/Config/CameraController.cs" id="3_5vw27"]
 [ext_resource type="Script" uid="uid://dfmy3j03g6721" path="res://Code/UI/BuildMenu.cs" id="4_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://ktjg7djaa2wg" path="res://Scenes/texture_button.tscn" id="5_lquwl"]
 [ext_resource type="Script" uid="uid://b7wnqh8q67qwb" path="res://Code/Config/BuildingManager.cs" id="6_7mycd"]
 [ext_resource type="Material" uid="uid://lfuqpstgf8l1" path="res://Assets/Materials/previewMaterial.tres" id="7_5vw27"]
-[ext_resource type="Script" uid="uid://cxq4j1xqobk2q" path="res://InputManager.cs" id="7_272bh"]
+[ext_resource type="Script" uid="uid://cxq4j1xqobk2q" path="res://Code/Config/InputManager.cs" id="7_272bh"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ig7tw"]
 size = Vector3(31.4346, 1, 28.7737)
@@ -36,11 +36,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0210257, 2.52834, -0.03848
 MoveSpeed = 7.0
 RotationSpeed = 12.0
 
-[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("Target")]
+[node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.705674, 0.708537, 0, -0.708537, 0.705674, 0, 8.09526, 10.0842)
-script = ExtResource("3_h2yge")
-Target = NodePath("../Player")
-Offset = Vector3(0, 7, 6)
+script = ExtResource("3_5vw27")
 
 [node name="Control" type="Control" parent="." node_paths=PackedStringArray("GridContainer", "MenuToggleButton")]
 layout_mode = 3
@@ -53,31 +51,36 @@ ItemButtonPrefab = ExtResource("5_lquwl")
 MenuToggleButton = NodePath("../ToggleMenu")
 
 [node name="BG" type="PanelContainer" parent="Control"]
-layout_mode = 0
-offset_left = 726.0
-offset_top = 40.0
-offset_right = 1115.0
-offset_bottom = 604.0
-pivot_offset = Vector2(194, 282)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 16.75
+anchor_top = 0.875
+anchor_right = 27.95
+anchor_bottom = 15.4
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(224, 97)
+metadata/_edit_use_anchors_ = true
 
 [node name="itemGridContainer" type="GridContainer" parent="Control/BG"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+columns = 2
 
 [node name="ToggleMenu" type="Button" parent="."]
-offset_left = 40.0
-offset_top = 40.0
-offset_right = 132.0
-offset_bottom = 88.0
+offset_left = 38.0
+offset_top = 35.0
+offset_right = 130.0
+offset_bottom = 83.0
 text = "Menu
 "
 
-[node name="config" type="Node" parent="."]
+[node name="Config" type="Node" parent="."]
 
-[node name="BuildingManager" type="Node3D" parent="config"]
+[node name="BuildingManager" type="Node3D" parent="Config"]
 script = ExtResource("6_7mycd")
 PreviewMaterial = ExtResource("7_5vw27")
 
-[node name="InputManager" type="Node" parent="config"]
+[node name="InputManager" type="Node" parent="Config"]
 script = ExtResource("7_272bh")

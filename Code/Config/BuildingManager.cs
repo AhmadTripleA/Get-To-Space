@@ -5,20 +5,21 @@ public partial class BuildingManager : Node3D
     public static BuildingManager Instance { get; private set; }
     [Export] public float SnapDistance = 0.1f;  // The distance to snap the building to the floor
     [Export] public StandardMaterial3D PreviewMaterial;
-    private Camera3D Camera;
 
-    private Node3D _previewBuilding = null;  // The preview building instance
-    private PackedScene _currentBuildingScene = null; // The actual building scene to place
-    private bool _isPlacing = false;         // Whether we're currently in "place mode"
+    private Camera3D camera;
+    private Node3D previewBuilding = null;  // The preview building instance
+    private PackedScene buildingScene = null; // The actual building scene to place
+    private bool inPlaceMode = false;         // Whether we're currently in "place mode"
+    private bool canPlace = true;             // Detect overlapping geometry
 
     public override void _Ready()
     {
         if (Instance == null)
         {
             Instance = this;
-            Camera = GetViewport().GetCamera3D();
+            camera = GetViewport().GetCamera3D();
             InputManager.CancelAction += CleanUp;
-            InputManager.PrimaryClickAction += OnPlace;
+            InputManager.PrimaryClickAction += OnConfirmBuild;
         }
         else
         {
@@ -28,42 +29,49 @@ public partial class BuildingManager : Node3D
 
     public override void _Process(double delta)
     {
-        if (_isPlacing && _previewBuilding != null)
+        if (inPlaceMode && previewBuilding != null)
         {
             Vector3 mouseWorldPosition = GetMouseWorldPosition();
-            _previewBuilding.Position = mouseWorldPosition;
+            previewBuilding.Position = mouseWorldPosition;
         }
     }
 
-    private void OnPlace()
+    public static Node3D Build(PackedScene prefab, Vector3 position)
     {
-        if (_isPlacing) FinalizePlacing();
+        Node3D newBuilding = (Node3D)prefab.Instantiate();
+        newBuilding.Position = position;
+
+        return newBuilding;
     }
 
     public void StartPlacing(PackedScene buildingScene)
     {
         CleanUp(); // Remove any existing preview
 
-        _currentBuildingScene = buildingScene;
+        this.buildingScene = buildingScene;
 
         // Create a separate preview instance
-        _previewBuilding = (Node3D)buildingScene.Instantiate();
-        ApplyPreviewEffects(_previewBuilding);
-        AddChild(_previewBuilding);
-        _isPlacing = true;
+        previewBuilding = (Node3D)buildingScene.Instantiate();
+        ApplyPreviewEffects(previewBuilding);
+        AddChild(previewBuilding);
+        inPlaceMode = true;
+    }
+
+    private void OnConfirmBuild()
+    {
+        if (inPlaceMode) FinalizePlacing();
     }
 
     private void FinalizePlacing()
     {
-        if (_previewBuilding == null) return;
+        if (previewBuilding == null) return;
 
         // Get final placement position
         Vector3 finalPosition = GetMouseWorldPosition();
 
         // Instantiate the actual building
-        Node3D placedBuilding = (Node3D)_currentBuildingScene.Instantiate();
-        placedBuilding.Position = finalPosition;
-        AddChild(placedBuilding);
+        var newBuilding = Build(buildingScene, finalPosition);
+        AddChild(newBuilding);
 
         // Cleanup preview
         CleanUp();
@@ -71,28 +79,28 @@ public partial class BuildingManager : Node3D
 
     private void CleanUp()
     {
-        if (_previewBuilding != null)
+        if (previewBuilding != null)
         {
-            _previewBuilding.QueueFree();
-            _previewBuilding = null;
+            previewBuilding.QueueFree();
+            previewBuilding = null;
         }
 
-        _isPlacing = false;
-        _currentBuildingScene = null;
+        inPlaceMode = false;
+        buildingScene = null;
     }
 
     private Vector3 GetMouseWorldPosition()
     {
         Vector2 mousePosition = GetViewport().GetMousePosition();
 
-        if (Camera == null)
+        if (camera == null)
         {
             GD.PrintErr("No Camera3D found in the viewport.");
             return Vector3.Zero;
         }
 
-        Vector3 rayOrigin = Camera.ProjectRayOrigin(mousePosition);
-        Vector3 rayDirection = Camera.ProjectRayNormal(mousePosition);
+        Vector3 rayOrigin = camera.ProjectRayOrigin(mousePosition);
+        Vector3 rayDirection = camera.ProjectRayNormal(mousePosition);
 
         PhysicsRayQueryParameters3D query = new()
         {
