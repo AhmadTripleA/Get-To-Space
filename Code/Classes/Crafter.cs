@@ -4,26 +4,26 @@ using System.Collections.Generic;
 
 public partial class Crafter : Node
 {
-    [Export] public float CraftingSpeed = 1f;
-    [Export] public Recipe Recipe;
-    public List<Storage> Inputs = [];
-    public List<Storage> Outputs = [];
-
-    private bool isCrafting = false;
-    private bool isActive = true;
+    [Export] public float craftingSpeed = 1f;
+    [Export] public bool loopCrafting = true;
+    [Export] public Recipe selectedRecipe;
+    private List<Storage> inputs = [];
+    private List<Storage> outputs = [];
+    private bool isCrafting = false; // is currently crafting something
+    private bool isActive = true; // ????
     private Timer craftingTimer;
 
     public override void _Ready()
     {
         // Initialize storage lists
-        for (int i = 0; i < Recipe.Inputs.Length; i++)
+        for (int i = 0; i < selectedRecipe.Inputs.Length; i++)
         {
-            Inputs.Add(new Storage(1));
+            inputs.Add(new Storage(1));
         }
 
-        for (int i = 0; i < Recipe.Outputs.Length; i++)
+        for (int i = 0; i < selectedRecipe.Outputs.Length; i++)
         {
-            Outputs.Add(new Storage(1));
+            outputs.Add(new Storage(1));
         }
 
         // Add and configure crafting timer
@@ -46,17 +46,17 @@ public partial class Crafter : Node
     private bool CanStartCrafting()
     {
         // Ensure all required inputs exist
-        foreach (var entry in Recipe.Inputs)
+        foreach (var entry in selectedRecipe.Inputs)
         {
-            int totalAvailable = Inputs.Sum(storage => storage.GetItemCount(entry.Item));
+            int totalAvailable = inputs.Sum(storage => storage.GetItemCount(entry.Item));
             if (totalAvailable < entry.Quantity)
                 return false; // Not enough input
         }
 
         // Ensure outputs can be stored
-        foreach (var entry in Recipe.Outputs)
+        foreach (var entry in selectedRecipe.Outputs)
         {
-            bool canStore = Outputs.Any(storage => storage.CanStoreItem(entry.Item, entry.Quantity));
+            bool canStore = outputs.Any(storage => storage.CanStoreItem(entry.Item, entry.Quantity));
             if (!canStore)
                 return false; // Not enough space for output
         }
@@ -69,10 +69,10 @@ public partial class Crafter : Node
         isCrafting = true;
 
         // Remove inputs
-        foreach (var entry in Recipe.Inputs)
+        foreach (var entry in selectedRecipe.Inputs)
         {
             int amountNeeded = entry.Quantity;
-            foreach (var storage in Inputs)
+            foreach (var storage in inputs)
             {
                 amountNeeded -= storage.RemoveItem(entry.Item, amountNeeded);
                 if (amountNeeded <= 0) break;
@@ -80,16 +80,16 @@ public partial class Crafter : Node
         }
 
         // Start crafting timer
-        float craftingTime = Recipe.CraftingTime / CraftingSpeed;
+        float craftingTime = selectedRecipe.CraftingTime / craftingSpeed;
         craftingTimer.Start(craftingTime);
     }
 
     private void OnCraftingFinished()
     {
         // Add outputs
-        foreach (var entry in Recipe.Outputs)
+        foreach (var entry in selectedRecipe.Outputs)
         {
-            foreach (var storage in Outputs)
+            foreach (var storage in outputs)
             {
                 int remaining = storage.AddItem(entry.Item, entry.Quantity);
                 if (remaining == 0) break; // Fully stored
@@ -98,9 +98,20 @@ public partial class Crafter : Node
 
         isCrafting = false;
 
-        if (CanStartCrafting())
+        if (loopCrafting == false)
         {
-            StartCrafting();
+            isActive = false;
         }
+
+    }
+
+    public void CraftNewRecipe(Recipe recipe)
+    {
+        if (isCrafting) return;
+
+        // add queueing system
+        
+        isActive = true;
+        selectedRecipe = recipe;
     }
 }

@@ -1,13 +1,13 @@
 [gd_scene load_steps=12 format=3 uid="uid://iyceefjwx0dt"]
 
-[ext_resource type="Script" uid="uid://cysjrnkf7jl24" path="res://Code/Config/GameManager.cs" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://c8sy8a8p18r5n" path="res://Scenes/player.tscn" id="1_ig7tw"]
-[ext_resource type="Script" uid="uid://bvbtdfp5esygx" path="res://Code/Config/CameraController.cs" id="3_5vw27"]
+[ext_resource type="Script" uid="uid://bdwjkketqdfob" path="res://Code/Managers/CameraController.cs" id="2_kek77"]
 [ext_resource type="Script" uid="uid://dfmy3j03g6721" path="res://Code/UI/BuildMenu.cs" id="4_1bvp3"]
+[ext_resource type="Script" uid="uid://bg0gapyx0pioo" path="res://Code/Managers/BuildingManager.cs" id="4_5vw27"]
 [ext_resource type="PackedScene" uid="uid://ktjg7djaa2wg" path="res://Scenes/texture_button.tscn" id="5_lquwl"]
-[ext_resource type="Script" uid="uid://b7wnqh8q67qwb" path="res://Code/Config/BuildingManager.cs" id="6_7mycd"]
+[ext_resource type="Script" uid="uid://wmwwd44ufhyy" path="res://Code/Managers/GameManager.cs" id="6_4c57u"]
+[ext_resource type="Script" uid="uid://b3n80o1uequ0s" path="res://Code/Managers/InputManager.cs" id="6_kek77"]
 [ext_resource type="Material" uid="uid://lfuqpstgf8l1" path="res://Assets/Materials/previewMaterial.tres" id="7_5vw27"]
-[ext_resource type="Script" uid="uid://cxq4j1xqobk2q" path="res://Code/Config/InputManager.cs" id="7_272bh"]
 [ext_resource type="Script" uid="uid://cmb0mxnsxotf1" path="res://Code/UI/CraftMenu.cs" id="7_kek77"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ig7tw"]
@@ -16,7 +16,7 @@ size = Vector3(31.4346, 1, 28.7737)
 [sub_resource type="BoxMesh" id="BoxMesh_ig7tw"]
 
 [node name="root" type="Node"]
-script = ExtResource("1_h2yge")
+script = ExtResource("6_4c57u")
 
 [node name="Env" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.480076, 0)
@@ -40,18 +40,18 @@ RotationSpeed = 12.0
 [node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("Target")]
 transform = Transform3D(1, 0, 0, 0, 0.705674, 0.708537, 0, -0.708537, 0.705674, 0, 8.09526, 10.0842)
 fov = 60.0
-script = ExtResource("3_5vw27")
+script = ExtResource("2_kek77")
 Target = NodePath("../Player")
 Offset = Vector3(0, 7, 6)
 
 [node name="Config" type="Node" parent="."]
 
-[node name="BuildingManager" type="Node3D" parent="Config"]
-script = ExtResource("6_7mycd")
+[node name="Building Manager" type="Node3D" parent="Config"]
+script = ExtResource("4_5vw27")
 PreviewMaterial = ExtResource("7_5vw27")
 
-[node name="InputManager" type="Node" parent="Config"]
-script = ExtResource("7_272bh")
+[node name="Input Manager" type="Node" parent="Config"]
+script = ExtResource("6_kek77")
 
 [node name="Craft Menu" type="Control" parent="." node_paths=PackedStringArray("GridContainer", "MenuToggleButton")]
 layout_mode = 3
