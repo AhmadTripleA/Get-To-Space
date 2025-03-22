@@ -50,15 +50,18 @@ public partial class BuildingManager : Node3D
         // if item has no building, do nothing
         if (item.BuildingScene == null) return;
 
+        UiNavManager.CloseAll(); // close all menus
+
         CleanUp(); // Remove any existing preview
 
+        inPlaceMode = true;
         buildingItem = item;
 
         // Create a separate preview instance
         previewBuilding = (Node3D)item.BuildingScene.Instantiate();
         ApplyPreviewEffects(previewBuilding);
+
         AddChild(previewBuilding);
-        inPlaceMode = true;
     }
 
     private void OnConfirmBuild()
@@ -72,7 +75,7 @@ public partial class BuildingManager : Node3D
 
         // Remove the item from inventory
         int removed = player.storage.RemoveItem(buildingItem, 1);
-        if(removed == 0) 
+        if (removed == 0)
         {
             GD.Print($"Missing Item from Inventory: {buildingItem.Name}x1");
             CleanUp();

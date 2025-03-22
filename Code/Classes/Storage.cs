@@ -5,9 +5,9 @@ public partial class Storage : Node
 {
     [Export] public int Capacity = 20; // Default inventory size
     private List<ItemStack> itemStacks = [];
+    
     [Signal]
     public delegate void InventoryChangedEventHandler(); // Signal for UI updates
-
 
     public Storage() { itemStacks = [.. new ItemStack[Capacity]]; }
 
@@ -33,6 +33,7 @@ public partial class Storage : Node
 
     public int AddItem(Item item, int quantity)
     {
+        int startingQuantity = quantity;
         // Try adding to existing stacks.
         foreach (var stack in itemStacks)
         {
@@ -55,8 +56,15 @@ public partial class Storage : Node
             }
         }
 
-        // If there is still remaining quantity, return it (items that couldn't fit)
-        EmitSignal(SignalName.InventoryChanged);
+        // a change happened to inventory
+        if (startingQuantity != quantity)
+        {
+            int diff = startingQuantity - quantity;
+            GD.Print($"Added {item.Name}x{diff} to Inventory.");
+            
+            EmitSignal(SignalName.InventoryChanged);
+        }
+
         return quantity;
     }
 

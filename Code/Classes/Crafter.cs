@@ -30,7 +30,7 @@ public partial class Crafter : Node
         craftingTimer = new Timer();
         AddChild(craftingTimer);
         craftingTimer.OneShot = false; // Keep running indefinitely
-        craftingTimer.Connect("timeout", Callable.From(OnCraftingFinished));
+        craftingTimer.Timeout += OnCraftingFinished;
     }
 
     public override void _Process(double delta)
@@ -110,7 +110,7 @@ public partial class Crafter : Node
         if (isCrafting) return;
 
         // add queueing system
-        
+
         isActive = true;
         selectedRecipe = recipe;
     }

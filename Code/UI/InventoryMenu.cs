@@ -36,7 +36,6 @@ public partial class InventoryMenu : Control
                     inventorySlot.Pressed += () =>
                     {
                         BuildingManager.Instance.InitBuilding(stack.Item);
-                        UiNavManager.CloseAll();
                     };
                 }
 

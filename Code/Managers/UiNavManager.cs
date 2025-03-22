@@ -24,8 +24,11 @@ public partial class UiNavManager : Control
 
     public static void ToggleUI(Control control)
     {
-        control.Visible = !control.Visible;
+        bool isActive = control.Visible;
+        if(!isActive) CloseAll();
+        control.Visible = !isActive;
     }
+
     public static void CloseUI(Control control)
     {
         control.Hide();

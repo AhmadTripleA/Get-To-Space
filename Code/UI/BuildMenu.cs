@@ -12,11 +12,9 @@ public partial class BuildMenu : Control
         ItemDB.OnItemsLoaded += PopulateMenu;
     }
 
-    void OnItemSelected(Item selectedItem)
+    static void OnItemSelected(Item selectedItem)
     {
-        GD.Print($"Selected: {selectedItem.Name}");
         BuildingManager.Instance.InitBuilding(selectedItem);
-        UiNavManager.CloseUI(this);
     }
 
     private void PopulateMenu()

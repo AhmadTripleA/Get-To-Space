@@ -1,0 +1,36 @@
+[gd_resource type="Resource" script_class="Recipe" load_steps=10 format=3 uid="uid://cpsix1h26awrh"]
+
+[ext_resource type="Texture2D" uid="uid://b1jewycnm8tbp" path="res://icon.svg" id="1_f3w4v"]
+[ext_resource type="Resource" uid="uid://bgfdt7rofkw3a" path="res://Assets/Items/wood.tres" id="2_1rhhn"]
+[ext_resource type="Script" uid="uid://c3qjwd34y2dbm" path="res://Code/Classes/Resources/RecipeEntry.cs" id="3_3ybgw"]
+[ext_resource type="Resource" uid="uid://ohojt3ta6n45" path="res://Assets/Items/stone.tres" id="4_1rhhn"]
+[ext_resource type="Resource" uid="uid://csmy8iwc7dpot" path="res://Assets/Items/townhall.tres" id="5_3ybgw"]
+[ext_resource type="Script" uid="uid://dtno808brd3rb" path="res://Code/Classes/Resources/Recipe.cs" id="5_s6osi"]
+
+[sub_resource type="Resource" id="Resource_8bf71"]
+script = ExtResource("3_3ybgw")
+Item = ExtResource("2_1rhhn")
+Amount = 50
+metadata/_custom_type_script = "uid://c3qjwd34y2dbm"
+
+[sub_resource type="Resource" id="Resource_oe6rm"]
+script = ExtResource("3_3ybgw")
+Item = ExtResource("4_1rhhn")
+Amount = 20
+metadata/_custom_type_script = "uid://c3qjwd34y2dbm"
+
+[sub_resource type="Resource" id="Resource_65af5"]
+script = ExtResource("3_3ybgw")
+Item = ExtResource("5_3ybgw")
+Amount = 1
+metadata/_custom_type_script = "uid://c3qjwd34y2dbm"
+
+[resource]
+script = ExtResource("5_s6osi")
+Id = 2
+Name = "Townhall"
+Icon = ExtResource("1_f3w4v")
+CraftingTime = 5.0
+Inputs = [SubResource("Resource_8bf71"), SubResource("Resource_oe6rm")]
+Outputs = [SubResource("Resource_65af5")]
+metadata/_custom_type_script = "uid://dtno808brd3rb"

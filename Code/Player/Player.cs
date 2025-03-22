@@ -4,11 +4,28 @@ public partial class Player : CharacterBody3D
 {
     [Export] public float MoveSpeed = 5f;
     [Export] public float RotationSpeed = 10f;
+    [Export] public float MiningStrength = 10f; // Adjust mining power
+    [Export] public float MiningRange = 5f;     // How far the player can mine
     public Storage storage = new Storage(5);
     private Vector3 _velocity = Vector3.Zero;
+    private Mineable targetMineable;
     private float _gravity = 10f;
 
     public override void _PhysicsProcess(double delta)
+    {
+        HandleMovement(delta);
+    }
+
+    public override void _Process(double delta)
+    {
+        DetectMineableNodes();
+        if (targetMineable != null && Input.IsActionJustPressed("interact"))
+        {
+            MineTarget();
+        }
+    }
+
+    private void HandleMovement(double delta)
     {
         Vector2 inputDir = new Vector2(
             Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left"),
@@ -48,4 +65,33 @@ public partial class Player : CharacterBody3D
         MoveAndSlide();
     }
 
+    private void DetectMineableNodes()
+    {
+        targetMineable = null;
+        Vector3 playerPos = GlobalTransform.Origin;
+
+        foreach (Node node in GetTree().CurrentScene.GetChildren(true)) // Recursively search children
+        {
+            if (node is Mineable mineable && mineable.isAlive)
+            {
+                float distance = mineable.GlobalTransform.Origin.DistanceTo(playerPos);
+                if (distance <= MiningRange)
+                {
+                    targetMineable = mineable;
+                    break;
+                }
+            }
+        }
+    }
+
+    private void MineTarget()
+    {
+        if (targetMineable == null) return;
+
+        float minedAmount = targetMineable.Mine(MiningStrength);
+
+        storage.AddItem(targetMineable.item, (int)minedAmount);
+
+        GD.Print($"Mined {minedAmount} of {targetMineable.item.Name}");
+    }
 }
