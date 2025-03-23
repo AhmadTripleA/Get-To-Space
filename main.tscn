@@ -13,7 +13,7 @@
 [ext_resource type="Script" uid="uid://b5aowe54ky0nf" path="res://Code/Managers/UiNavManager.cs" id="8_efxa6"]
 [ext_resource type="Script" uid="uid://7pq42mwdmlfe" path="res://Code/UI/InventoryMenu.cs" id="11_dg77c"]
 [ext_resource type="PackedScene" uid="uid://ul5gdntvo31r" path="res://Scenes/inventory_slot_s.tscn" id="12_ycdy4"]
-[ext_resource type="PackedScene" uid="uid://d06skoo5nxkkp" path="res://Scenes/iron_node.tscn" id="14_w48qg"]
+[ext_resource type="PackedScene" path="res://Scenes/iron_node.tscn" id="14_w48qg"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ig7tw"]
 size = Vector3(31.4346, 1, 28.7737)
@@ -169,7 +169,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("7_kek77")
 GridContainer = NodePath("BG/CraftingGrid")
-ItemButtonPrefab = ExtResource("5_lquwl")
+ItemButtonPrefab = ExtResource("12_ycdy4")
 
 [node name="BG" type="PanelContainer" parent="UI/Inventory and Craft/Crafting Menu"]
 custom_minimum_size = Vector2(50, 100)

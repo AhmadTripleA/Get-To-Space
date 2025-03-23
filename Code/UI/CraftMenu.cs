@@ -31,10 +31,10 @@ public partial class CraftMenu : Control
     private void AddRecipeButton(Recipe recipe)
     {
         // Instance a new button from the prefab
-        TextureButton button = ItemButtonPrefab.Instantiate<TextureButton>();
-        button.TextureNormal = recipe.Icon; // Set icon
-        button.Pressed += () => OnRecipeSelected(recipe); // Click action
+        ItemSlot slot = ItemButtonPrefab.Instantiate<ItemSlot>();
+        slot.Construct(recipe.Outputs[0].Item.Icon, recipe.Name, "");
+        slot.Pressed += () => OnRecipeSelected(recipe); // Click action
 
-        GridContainer.AddChild(button);
+        GridContainer.AddChild(slot);
     }
 }

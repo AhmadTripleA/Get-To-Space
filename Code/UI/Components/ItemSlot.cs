@@ -3,19 +3,25 @@ using Godot;
 [GlobalClass]
 public partial class ItemSlot : BaseButton
 {
-    public void Construct(Item item, int amount)
+    [Export] public TextureRect Icon { get; set; }
+    [Export] public Label TextLabel { get; set; }
+    [Export] public Label CountLabel { get; set; }
+
+    public void Construct(Item item, string count)
     {
         if (item != null)
         {
-            TextureRect iconNode = GetNode<TextureRect>("Icon");
-            if (iconNode != null) iconNode.Texture = item.Icon;
-
-            Label labelNode = GetNode<Label>("Label");
-            if (labelNode != null) labelNode.Text = item.Name;
-
-            Label countNode = GetNode<Label>("Count");
-            if (countNode != null) countNode.Text = amount.ToString();
+            Icon.Texture = item.Icon;
+            TextLabel.Text = item.Name;
         }
+        CountLabel.Text = count;
+    }
+
+    public void Construct(Texture2D icon, string name, string count)
+    {
+        Icon.Texture = icon;
+        TextLabel.Text = name;
+        CountLabel.Text = count;
     }
 
 }
