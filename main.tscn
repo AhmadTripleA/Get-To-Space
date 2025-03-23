@@ -20,8 +20,10 @@ size = Vector3(31.4346, 1, 28.7737)
 
 [sub_resource type="BoxMesh" id="BoxMesh_ig7tw"]
 
-[node name="root" type="Node"]
+[node name="root" type="Node" node_paths=PackedStringArray("buildingManager", "craftingManager")]
 script = ExtResource("6_4c57u")
+buildingManager = NodePath("Config/Building Manager")
+craftingManager = NodePath("Config/Crafting MNGR")
 
 [node name="Env" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.480076, 0)

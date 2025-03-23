@@ -40,6 +40,7 @@ public partial class Storage : Node
             if (stack != null && stack.Item == item)
             {
                 quantity = stack.AddToStack(item, quantity);
+                
                 if (quantity == 0) break; // If everything was added, exit the loop.
             }
         }
@@ -52,6 +53,7 @@ public partial class Storage : Node
                 int added = Mathf.Min(quantity, item.MaxStackSize);
                 itemStacks[i] = new ItemStack(item, added);
                 quantity -= added;
+                
                 if (quantity == 0) break; // Done adding items, exit loop.
             }
         }
@@ -82,15 +84,16 @@ public partial class Storage : Node
 
                 if (itemStacks[i].IsEmpty()) itemStacks[i] = null;
 
-                if (quantity <= 0)
-                {
-                    EmitSignal(SignalName.InventoryChanged);
-                    return totalRemoved;
-                }
+                if (quantity <= 0) break;
             }
         }
 
-        EmitSignal(SignalName.InventoryChanged);
+        if(totalRemoved != 0)
+        {
+            GD.Print($"Removed {item.Name}x{totalRemoved} from Inventory.");
+            EmitSignal(SignalName.InventoryChanged);
+        } 
+
         return totalRemoved;
     }
 
