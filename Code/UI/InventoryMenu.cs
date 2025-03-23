@@ -34,7 +34,8 @@ public partial class InventoryMenu : Control
                 {
                     inventorySlot.Pressed += () =>
                     {
-                        BuildingManager.Instance.InitBuilding(stack.Item);
+                        BuildingManager buildingManager = ServiceDB.Get<BuildingManager>();
+                        buildingManager?.InitBuilding(stack.Item);
                     };
                 }
 

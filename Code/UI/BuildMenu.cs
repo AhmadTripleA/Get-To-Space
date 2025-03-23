@@ -14,7 +14,8 @@ public partial class BuildMenu : Control
 
     static void OnItemSelected(Item selectedItem)
     {
-        BuildingManager.Instance.InitBuilding(selectedItem);
+        BuildingManager buildingManager = ServiceDB.Get<BuildingManager>();
+        buildingManager?.InitBuilding(selectedItem);
     }
 
     private void PopulateMenu()

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 public partial class CraftingManager : Node
 {
-    public static CraftingManager Instance { get; private set; }
     [Export] public float CraftingSpeed = 1.0f;
     [Export] public Player player;
     private Queue<CraftingTask> craftingQueue = [];
@@ -12,14 +11,6 @@ public partial class CraftingManager : Node
     public override void _Ready()
     {
         storage = player.storage;
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            QueueFree(); // Prevent duplicate GameManagers
-        }
     }
 
     public void AddToCraftingQueue(Recipe recipe)

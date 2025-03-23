@@ -15,7 +15,9 @@ public partial class CraftMenu : Control
     void OnRecipeSelected(Recipe selectedRecipe)
     {
         GD.Print($"Selected Recipe: {selectedRecipe.Name}");
-        CraftingManager.Instance.AddToCraftingQueue(selectedRecipe);
+        
+        CraftingManager craftingManager = ServiceDB.Get<CraftingManager>();
+        craftingManager?.AddToCraftingQueue(selectedRecipe);
     }
 
     private void PopulateMenu()
