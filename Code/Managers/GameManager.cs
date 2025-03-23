@@ -2,24 +2,20 @@ using Godot;
 
 public partial class GameManager : Node
 {
-    public static GameManager Instance { get; private set; }
+    [Export] public BuildingManager buildingManager;
+    [Export] public CraftingManager craftingManager;
 
-    public override void _Ready()
+    public override void _EnterTree()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            StartGame();
-        }
-        else
-        {
-            QueueFree(); // Prevent duplicate GameManagers
-        }
+        StartGame();
     }
 
     private void StartGame()
     {
         ItemDB.LoadItems();
         RecipeDB.LoadRecipes();
+
+        ServiceDB.Register(craftingManager);
+        ServiceDB.Register(buildingManager);
     }
 }

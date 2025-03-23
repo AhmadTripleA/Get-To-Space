@@ -2,7 +2,6 @@ using Godot;
 
 public partial class BuildingManager : Node3D
 {
-    public static BuildingManager Instance { get; private set; }
     [Export] public float SnapDistance = 0.1f;  // The distance to snap the building to the floor
     [Export] public StandardMaterial3D PreviewMaterial;
     [Export] public Player player;
@@ -15,17 +14,9 @@ public partial class BuildingManager : Node3D
 
     public override void _Ready()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            camera = GetViewport().GetCamera3D();
-            InputManager.CancelAction += CleanUp;
-            InputManager.PrimaryClickAction += OnConfirmBuild;
-        }
-        else
-        {
-            QueueFree(); // Prevent duplicate GameManagers
-        }
+        camera = GetViewport().GetCamera3D();
+        InputManager.CancelAction += CleanUp;
+        InputManager.PrimaryClickAction += OnConfirmBuild;
     }
 
     public override void _Process(double delta)
