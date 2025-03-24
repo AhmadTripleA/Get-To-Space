@@ -1,7 +1,7 @@
 using Godot;
 
 [GlobalClass]
-public partial class ItemSlot : BaseButton
+public partial class ItemSlotBtn : BaseButton
 {
     [Export] public TextureRect Icon { get; set; }
     [Export] public Label TextLabel { get; set; }

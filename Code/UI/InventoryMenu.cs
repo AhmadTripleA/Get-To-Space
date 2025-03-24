@@ -27,7 +27,7 @@ public partial class InventoryMenu : Control
         {
             if (stack != null)
             {
-                ItemSlot inventorySlot = InventorySlotPrefab.Instantiate<ItemSlot>();
+                ItemSlotBtn inventorySlot = InventorySlotPrefab.Instantiate<ItemSlotBtn>();
                 inventorySlot.Construct(stack.Item, stack.Quantity.ToString());
 
                 if (stack.Item.BuildingScene != null)
