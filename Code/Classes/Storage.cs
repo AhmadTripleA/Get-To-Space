@@ -53,9 +53,9 @@ public partial class Storage : Node
                 int added = Mathf.Min(quantity, item.MaxStackSize);
                 itemStacks[i] = new ItemStack(item, added);
                 quantity -= added;
-                
-                if (quantity == 0) break; // Done adding items, exit loop.
             }
+
+            if (quantity == 0) break; // Done adding items, exit loop.
         }
 
         // a change happened to inventory

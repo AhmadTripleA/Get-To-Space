@@ -25,7 +25,7 @@ public partial class UiNavManager : Control
     public static void ToggleUI(Control control)
     {
         bool isActive = control.Visible;
-        if(!isActive) CloseAll();
+        if(!isActive) CloseAll(); // Close other menus before showing new one
         control.Visible = !isActive;
     }
 
@@ -33,6 +33,7 @@ public partial class UiNavManager : Control
     {
         control.Hide();
     }
+
     public static void CloseAll()
     {
         foreach (Control control in allControls)
