@@ -15,28 +15,24 @@ public partial class CraftMenu : Control
     void OnRecipeSelected(Recipe selectedRecipe)
     {
         GD.Print($"Selected Recipe: {selectedRecipe.Name}");
-        
+
         CraftingManager craftingManager = ServiceDB.Get<CraftingManager>();
         craftingManager?.AddToCraftingQueue(selectedRecipe);
     }
 
     private void PopulateMenu()
     {
-        GD.Print("Started Added Recipes");
         foreach (var recipe in RecipeDB.GetAllRecipes())
         {
+            // Instance a new button from the prefab
+            ItemSlotBtn btn = ItemButtonPrefab.Instantiate<ItemSlotBtn>();
+            btn.Construct(recipe.Outputs[0].Item.Icon, recipe.Name, "");
+
+            btn.Pressed += () => OnRecipeSelected(recipe); // Click action
+
+            GridContainer.AddChild(btn);
+
             GD.Print($"Added new Recipe: {recipe.Name}");
-            AddRecipeButton(recipe);
         }
-    }
-
-    private void AddRecipeButton(Recipe recipe)
-    {
-        // Instance a new button from the prefab
-        ItemSlot slot = ItemButtonPrefab.Instantiate<ItemSlot>();
-        slot.Construct(recipe.Outputs[0].Item.Icon, recipe.Name, "");
-        slot.Pressed += () => OnRecipeSelected(recipe); // Click action
-
-        GridContainer.AddChild(slot);
     }
 }

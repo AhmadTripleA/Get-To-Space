@@ -6,11 +6,11 @@ using System.Linq;
 public static class RecipeDB
 {
     public static event Action OnRecipesLoaded;
-    private static Dictionary<int, Recipe> _recipies = [];
+    private static Dictionary<int, Recipe> recipies = [];
 
     public static void LoadRecipes()
     {
-        _recipies.Clear();
+        recipies.Clear();
 
         string RecipeFolder = "res://Assets/Recipes/";
         var dir = DirAccess.Open(RecipeFolder);
@@ -29,8 +29,7 @@ public static class RecipeDB
 
                     if (recipe != null)
                     {
-                        _recipies[recipe.Id] = recipe;
-                        GD.Print($"Loaded recipe: {recipe.Name} (ID: {recipe.Id})");
+                        recipies[recipe.Id] = recipe;
                     }
                     else
                     {
@@ -48,12 +47,12 @@ public static class RecipeDB
 
     public static Recipe GetRecipeById(int id)
     {
-        return _recipies.TryGetValue(id, out var recipe) ? recipe : null;
+        return recipies.TryGetValue(id, out var recipe) ? recipe : null;
     }
 
     public static Recipe GetRecipeByName(string name)
     {
-        foreach (var recipe in _recipies.Values)
+        foreach (var recipe in recipies.Values)
         {
             if (recipe.Name == name)
                 return recipe;
@@ -61,7 +60,8 @@ public static class RecipeDB
         return null;
     }
 
-    public static Recipe[] GetAllRecipes(){
-        return _recipies.Values.ToArray();
+    public static Recipe[] GetAllRecipes()
+    {
+        return recipies.Values.ToArray();
     }
 }
