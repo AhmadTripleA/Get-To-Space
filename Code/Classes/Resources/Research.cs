@@ -3,6 +3,7 @@ using Godot;
 
 public enum ResearchStatus { Locked, Unlocked, InProgress, Finished }
 
+[GlobalClass]
 public partial class Research : Resource
 {
     //

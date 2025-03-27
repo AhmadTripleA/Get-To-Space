@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Research" load_steps=2 format=3 uid="uid://cu20gkovsafux"]
+
+[ext_resource type="Script" uid="uid://eauyjyhnhydk" path="res://Code/Classes/Resources/Research.cs" id="1_7cvli"]
+
+[resource]
+script = ExtResource("1_7cvli")
+Id = 0
+Name = ""
+Description = ""
+IsUnlocked = false
+UnlockedItems = []
+UnlockedRecipes = []
+ItemCosts = null
+RequiredResearchIds = PackedInt32Array()
+metadata/_custom_type_script = "uid://eauyjyhnhydk"
