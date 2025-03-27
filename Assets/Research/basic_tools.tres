@@ -1,12 +1,14 @@
-[gd_resource type="Resource" script_class="Research" load_steps=2 format=3 uid="uid://cu20gkovsafux"]
+[gd_resource type="Resource" script_class="Research" load_steps=3 format=3 uid="uid://cu20gkovsafux"]
 
 [ext_resource type="Script" uid="uid://eauyjyhnhydk" path="res://Code/Classes/Resources/Research.cs" id="1_7cvli"]
+[ext_resource type="Texture2D" uid="uid://b1jewycnm8tbp" path="res://icon.svg" id="1_vclwa"]
 
 [resource]
 script = ExtResource("1_7cvli")
-Id = 0
+Id = 1
 Name = ""
 Description = ""
+Icon = ExtResource("1_vclwa")
 IsUnlocked = false
 UnlockedItems = []
 UnlockedRecipes = []

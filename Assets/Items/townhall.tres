@@ -10,5 +10,6 @@ Id = 4
 Name = "Townhall"
 Icon = ExtResource("2_pmvem")
 MaxStackSize = 1
+IsUnlocked = true
 BuildingScene = ExtResource("1_rb4es")
 metadata/_custom_type_script = "uid://b6tdf6pbtx8rv"

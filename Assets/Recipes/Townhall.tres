@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="Recipe" load_steps=10 format=3 uid="uid://cpsix1h26awrh"]
+[gd_resource type="Resource" script_class="Recipe" load_steps=10 format=3 uid="uid://cqxx8x0qu6c0k"]
 
 [ext_resource type="Texture2D" uid="uid://b1jewycnm8tbp" path="res://icon.svg" id="1_f3w4v"]
 [ext_resource type="Resource" uid="uid://bgfdt7rofkw3a" path="res://Assets/Items/wood.tres" id="2_1rhhn"]
@@ -31,6 +31,7 @@ Id = 2
 Name = "Townhall"
 Icon = ExtResource("1_f3w4v")
 CraftingTime = 5.0
+IsUnlocked = true
 Inputs = [SubResource("Resource_8bf71"), SubResource("Resource_oe6rm")]
 Outputs = [SubResource("Resource_65af5")]
 metadata/_custom_type_script = "uid://dtno808brd3rb"

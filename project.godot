@@ -24,6 +24,7 @@ project/assembly_name="Space Race"
 folder_colors={
 "res://Assets/": "green",
 "res://Code/": "blue",
+"res://Data/": "purple",
 "res://Scenes/": "orange"
 }
 

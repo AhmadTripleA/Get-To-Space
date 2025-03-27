@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public static class RecipeDB
 {
@@ -61,7 +62,7 @@ public static class RecipeDB
 
     public static Recipe[] GetAll()
     {
-        return [.. registry.Values];
+        return registry.Values.ToArray();
     }
 
     public static bool Unlock(int id)

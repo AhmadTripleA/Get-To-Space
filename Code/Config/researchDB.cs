@@ -10,7 +10,7 @@ public static class ResearchDB
     public static void LoadAll()
     {
         // 1. Get all files in the folder
-        string researchFolder = "res://Research/";
+        string researchFolder = "res://Assets/Research/";
         using var dir = DirAccess.Open(researchFolder);
 
         if (dir != null)

@@ -11,9 +11,3 @@ public partial class Recipe : Resource
     [Export] public RecipeEntry[] Inputs = [];
     [Export] public RecipeEntry[] Outputs = [];
 }
-
-public partial class RecipeEntry : Resource
-{
-    [Export] public Item Item;
-    [Export] public int Amount;
-}
