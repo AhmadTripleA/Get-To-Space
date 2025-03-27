@@ -1,16 +1,15 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 public static class RecipeDB
 {
     public static event Action OnRecipesLoaded;
-    private static Dictionary<int, Recipe> recipies = [];
+    private static Dictionary<int, Recipe> registry = [];
 
-    public static void LoadRecipes()
+    public static void LoadAll()
     {
-        recipies.Clear();
+        registry.Clear();
 
         string RecipeFolder = "res://Assets/Recipes/";
         var dir = DirAccess.Open(RecipeFolder);
@@ -29,7 +28,7 @@ public static class RecipeDB
 
                     if (recipe != null)
                     {
-                        recipies[recipe.Id] = recipe;
+                        registry[recipe.Id] = recipe;
                     }
                     else
                     {
@@ -45,14 +44,14 @@ public static class RecipeDB
         }
     }
 
-    public static Recipe GetRecipeById(int id)
+    public static Recipe GetById(int id)
     {
-        return recipies.TryGetValue(id, out var recipe) ? recipe : null;
+        return registry.TryGetValue(id, out var recipe) ? recipe : null;
     }
 
-    public static Recipe GetRecipeByName(string name)
+    public static Recipe GetByName(string name)
     {
-        foreach (var recipe in recipies.Values)
+        foreach (var recipe in registry.Values)
         {
             if (recipe.Name == name)
                 return recipe;
@@ -60,8 +59,18 @@ public static class RecipeDB
         return null;
     }
 
-    public static Recipe[] GetAllRecipes()
+    public static Recipe[] GetAll()
     {
-        return recipies.Values.ToArray();
+        return [.. registry.Values];
+    }
+
+    public static bool Unlock(int id)
+    {
+        if (registry.TryGetValue(id, out var recipe))
+        {
+            recipe.IsUnlocked = true;
+            return true;
+        }
+        return false;
     }
 }

@@ -12,8 +12,9 @@ public partial class GameManager : Node
 
     private void StartGame()
     {
-        ItemDB.LoadItems();
-        RecipeDB.LoadRecipes();
+        ItemDB.LoadAll();
+        RecipeDB.LoadAll();
+        ResearchDB.LoadAll();
 
         ServiceDB.Register(craftingManager);
         ServiceDB.Register(buildingManager);

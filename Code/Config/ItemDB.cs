@@ -1,16 +1,15 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 public static class ItemDB
 {
     public static event Action OnItemsLoaded;
-    private static Dictionary<int, Item> _items = [];
+    private static Dictionary<int, Item> registry = [];
 
-    public static void LoadItems()
+    public static void LoadAll()
     {
-        _items.Clear();
+        registry.Clear();
 
         string itemsFolder = "res://Assets/Items/";
         var dir = DirAccess.Open(itemsFolder);
@@ -29,7 +28,7 @@ public static class ItemDB
 
                     if (item != null)
                     {
-                        _items[item.Id] = item;
+                        registry[item.Id] = item;
                         GD.Print($"Loaded item: {item.Name} (ID: {item.Id})");
                     }
                     else
@@ -46,13 +45,23 @@ public static class ItemDB
         }
     }
 
-    public static Item GetItemById(int id)
+    public static Item GetById(int id)
     {
-        return _items.TryGetValue(id, out var item) ? item : null;
+        return registry.TryGetValue(id, out var item) ? item : null;
     }
 
-    public static Item[] GetAllItems()
+    public static Item[] GetAll()
     {
-        return _items.Values.ToArray();
+        return [.. registry.Values];
+    }
+
+    public static bool Unlock(int id)
+    {
+        if (registry.TryGetValue(id, out var item))
+        {
+            item.IsUnlocked = true;
+            return true;
+        }
+        return false;
     }
 }

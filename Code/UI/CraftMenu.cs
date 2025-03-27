@@ -22,17 +22,20 @@ public partial class CraftMenu : Control
 
     private void PopulateMenu()
     {
-        foreach (var recipe in RecipeDB.GetAllRecipes())
+        foreach (var recipe in RecipeDB.GetAll())
         {
-            // Instance a new button from the prefab
-            ItemSlotBtn btn = ItemButtonPrefab.Instantiate<ItemSlotBtn>();
-            btn.Construct(recipe.Outputs[0].Item.Icon, recipe.Name, "");
+            if (recipe.IsUnlocked)
+            {
+                // Instance a new button from the prefab
+                ItemSlotBtn btn = ItemButtonPrefab.Instantiate<ItemSlotBtn>();
+                btn.Construct(recipe.Outputs[0].Item.Icon, recipe.Name, "");
 
-            btn.Pressed += () => OnRecipeSelected(recipe); // Click action
+                btn.Pressed += () => OnRecipeSelected(recipe); // Click action
 
-            GridContainer.AddChild(btn);
+                GridContainer.AddChild(btn);
 
-            GD.Print($"Added new Recipe: {recipe.Name}");
+                GD.Print($"Added new Recipe: {recipe.Name}");
+            }
         }
     }
 }

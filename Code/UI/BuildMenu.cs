@@ -21,9 +21,9 @@ public partial class BuildMenu : Control
     private void PopulateMenu()
     {
         GD.Print("Started Added Buildings");
-        foreach (var item in ItemDB.GetAllItems())
+        foreach (var item in ItemDB.GetAll())
         {
-            if (item.BuildingScene != null) // Filter only buildings
+            if (item.BuildingScene != null && item.IsUnlocked) // Filter only buildings
             {
                 GD.Print($"Added new Item: {item.Name}");
                 AddItemButton(item);
